@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-rout
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/site/Layout";
-import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut, Users, History, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut, Users } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -17,8 +17,6 @@ const items = [
   { to: "/admin/sell-requests", label: "Sell requests", icon: HandCoins },
   { to: "/admin/content", label: "Site content", icon: FileText },
   { to: "/admin/users", label: "Users", icon: Users },
-  { to: "/admin/audit", label: "Audit log", icon: History },
-  { to: "/admin/rls-check", label: "RLS check", icon: ShieldCheck },
 ];
 
 function AdminShell() {
@@ -54,7 +52,7 @@ function AdminShell() {
         <div className="mx-auto max-w-xl px-4 py-20 text-center">
           <h1 className="font-display text-3xl">Awaiting admin access</h1>
           <p className="mt-3 text-muted-foreground">
-            Signed in as <span className="font-medium">{userEmail}</span>. Ask an existing admin to grant you access from the Users page.
+            Signed in as <span className="font-medium">{userEmail}</span>. An existing admin needs to grant you access from the Users page.
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
             If no admin exists yet, you can claim the first admin role:

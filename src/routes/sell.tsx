@@ -71,8 +71,8 @@ function Sell() {
       }});
       if (!res.ok) {
         if (res.error === "captcha") {
-          const { showCaptchaError } = await import("@/lib/captcha-toast");
-          showCaptchaError(res.reason, () => submit());
+          const { captchaMessage } = await import("@/lib/captcha-messages");
+          toast.error(captchaMessage(res.reason).description);
         } else {
           toast.error(res.error);
         }

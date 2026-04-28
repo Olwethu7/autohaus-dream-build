@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Car, Mail, Calendar, HandCoins } from "lucide-react";
-import { AbuseBanner } from "@/components/site/AbuseBanner";
 
 export const Route = createFileRoute("/admin/")({
   component: Dashboard,
@@ -33,7 +32,6 @@ function Dashboard() {
 
   return (
     <div>
-      <AbuseBanner />
       <h1 className="font-display text-3xl">Dashboard</h1>
       <p className="mt-1 text-sm text-muted-foreground">Overview of your dealership.</p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

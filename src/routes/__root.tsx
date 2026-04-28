@@ -1,6 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
-import { CompareProvider } from "@/components/site/CompareContext";
 
 import appCss from "../styles.css?url";
 
@@ -61,9 +60,5 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return (
-    <CompareProvider>
-      <Outlet />
-    </CompareProvider>
-  );
+  return <Outlet />;
 }

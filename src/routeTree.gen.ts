@@ -13,7 +13,6 @@ import { Route as TestDriveRouteImport } from './routes/test-drive'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -25,10 +24,8 @@ import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
 import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
-import { Route as AdminRlsCheckRouteImport } from './routes/admin.rls-check'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
-import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 
 const TestDriveRoute = TestDriveRouteImport.update({
   id: '/test-drive',
@@ -48,11 +45,6 @@ const FinanceRoute = FinanceRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompareRoute = CompareRouteImport.update({
-  id: '/compare',
-  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogueRoute = CatalogueRouteImport.update({
@@ -110,11 +102,6 @@ const AdminSellRequestsRoute = AdminSellRequestsRouteImport.update({
   path: '/sell-requests',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminRlsCheckRoute = AdminRlsCheckRouteImport.update({
-  id: '/rls-check',
-  path: '/rls-check',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
   id: '/enquiries',
   path: '/enquiries',
@@ -125,11 +112,6 @@ const AdminContentRoute = AdminContentRouteImport.update({
   path: '/content',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -137,15 +119,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
-  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
-  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
-  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -158,15 +137,12 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
-  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
-  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
-  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -181,15 +157,12 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
-  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
-  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
-  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -205,15 +178,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/catalogue'
-    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
     | '/test-drive'
-    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
-    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -226,15 +196,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/catalogue'
-    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
     | '/test-drive'
-    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
-    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -248,15 +215,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/catalogue'
-    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
     | '/test-drive'
-    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
-    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -271,7 +235,6 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CatalogueRoute: typeof CatalogueRoute
-  CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   FinanceRoute: typeof FinanceRoute
   SellRoute: typeof SellRoute
@@ -307,13 +270,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/compare': {
-      id: '/compare'
-      path: '/compare'
-      fullPath: '/compare'
-      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catalogue': {
@@ -393,13 +349,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSellRequestsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/rls-check': {
-      id: '/admin/rls-check'
-      path: '/rls-check'
-      fullPath: '/admin/rls-check'
-      preLoaderRoute: typeof AdminRlsCheckRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/enquiries': {
       id: '/admin/enquiries'
       path: '/enquiries'
@@ -414,21 +363,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContentRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/audit': {
-      id: '/admin/audit'
-      path: '/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAuditRouteImport
-      parentRoute: typeof AdminRoute
-    }
   }
 }
 
 interface AdminRouteChildren {
-  AdminAuditRoute: typeof AdminAuditRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
-  AdminRlsCheckRoute: typeof AdminRlsCheckRoute
   AdminSellRequestsRoute: typeof AdminSellRequestsRoute
   AdminTestDrivesRoute: typeof AdminTestDrivesRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -437,10 +377,8 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminAuditRoute: AdminAuditRoute,
   AdminContentRoute: AdminContentRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
-  AdminRlsCheckRoute: AdminRlsCheckRoute,
   AdminSellRequestsRoute: AdminSellRequestsRoute,
   AdminTestDrivesRoute: AdminTestDrivesRoute,
   AdminUsersRoute: AdminUsersRoute,
@@ -456,7 +394,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CatalogueRoute: CatalogueRoute,
-  CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   FinanceRoute: FinanceRoute,
   SellRoute: SellRoute,
