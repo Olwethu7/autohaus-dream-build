@@ -45,7 +45,7 @@ const testDriveSchema = z.object({
 export const submitTestDrive = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => testDriveSchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "test_drive");
+    const verify = await verifyRecaptcha(data.token, "test_drive", 0.5, data.email);
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("test_drives").insert({
       vehicle_id: data.vehicle_id,
