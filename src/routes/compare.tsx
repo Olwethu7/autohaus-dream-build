@@ -52,14 +52,20 @@ function ComparePage() {
     });
   }, [ids]);
 
-  const proceedToTestDrive = async (vehicleId: string) => {
+  const proceedToTestDrive = async (vehicleId: string, attempt = 1) => {
     setVerifying(vehicleId);
     try {
       const token = await getRecaptchaToken("compare_proceed");
       const res = await verify({ data: { token, action: "compare_proceed" } });
       if (!res.ok) {
+        // Auto-retry once when the failure is a stale/duplicate token —
+        // grab a fresh token transparently before bothering the user.
+        if (res.reason === "timeout-or-duplicate" && attempt === 1) {
+          toast.info("Refreshing security check…", { duration: 1500 });
+          return proceedToTestDrive(vehicleId, 2);
+        }
         const { showCaptchaError } = await import("@/lib/captcha-toast");
-        showCaptchaError(res.reason, () => proceedToTestDrive(vehicleId));
+        showCaptchaError(res.reason, () => proceedToTestDrive(vehicleId, 1));
         return;
       }
       nav({ to: "/test-drive", search: { vehicleId } });
