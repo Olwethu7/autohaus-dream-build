@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-rout
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/site/Layout";
-import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut, Users } from "lucide-react";
+import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut, Users, History } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -17,6 +17,7 @@ const items = [
   { to: "/admin/sell-requests", label: "Sell requests", icon: HandCoins },
   { to: "/admin/content", label: "Site content", icon: FileText },
   { to: "/admin/users", label: "Users", icon: Users },
+  { to: "/admin/audit", label: "Audit log", icon: History },
 ];
 
 function AdminShell() {
