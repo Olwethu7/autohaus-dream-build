@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Car, Mail, Calendar, HandCoins } from "lucide-react";
+import { AbuseBanner } from "@/components/site/AbuseBanner";
 
 export const Route = createFileRoute("/admin/")({
   component: Dashboard,
