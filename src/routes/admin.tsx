@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-rout
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/site/Layout";
-import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut } from "lucide-react";
+import { LayoutDashboard, Car, Mail, Calendar, HandCoins, FileText, LogOut, Users } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -16,6 +16,7 @@ const items = [
   { to: "/admin/test-drives", label: "Test drives", icon: Calendar },
   { to: "/admin/sell-requests", label: "Sell requests", icon: HandCoins },
   { to: "/admin/content", label: "Site content", icon: FileText },
+  { to: "/admin/users", label: "Users", icon: Users },
 ];
 
 function AdminShell() {
@@ -51,16 +52,27 @@ function AdminShell() {
         <div className="mx-auto max-w-xl px-4 py-20 text-center">
           <h1 className="font-display text-3xl">Awaiting admin access</h1>
           <p className="mt-3 text-muted-foreground">
-            Signed in as <span className="font-medium">{userEmail}</span>. Ask an existing admin to grant you the admin role, or run this once in the database:
+            Signed in as <span className="font-medium">{userEmail}</span>. Ask an existing admin to grant you access from the Users page.
           </p>
-          <pre className="mx-auto mt-4 max-w-md overflow-x-auto rounded-md bg-muted p-3 text-left text-xs">
-{`INSERT INTO public.user_roles (user_id, role)
-SELECT id, 'admin' FROM auth.users
-WHERE email = '${userEmail}';`}
-          </pre>
-          <button onClick={signOut} className="mt-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-            <LogOut className="h-4 w-4" /> Sign out
+          <p className="mt-2 text-sm text-muted-foreground">
+            If no admin exists yet, you can claim the first admin role:
+          </p>
+          <button
+            onClick={async () => {
+              const { error } = await supabase.rpc("claim_first_admin");
+              if (error) { toast.error(error.message); return; }
+              toast.success("You're now an admin");
+              location.reload();
+            }}
+            className="mt-4 inline-flex items-center gap-2 rounded-md bg-gradient-gold px-4 py-2 text-sm font-semibold text-gold-foreground"
+          >
+            Claim first admin
           </button>
+          <div className="mt-6">
+            <button onClick={signOut} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <LogOut className="h-4 w-4" /> Sign out
+            </button>
+          </div>
         </div>
       </Layout>
     );
