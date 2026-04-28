@@ -47,6 +47,36 @@ export type Database = {
         }
         Relationships: []
       }
+      captcha_failures: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json
+          email: string | null
+          id: string
+          ip: string | null
+          reason: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json
+          email?: string | null
+          id?: string
+          ip?: string | null
+          reason: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json
+          email?: string | null
+          id?: string
+          ip?: string | null
+          reason?: string
+        }
+        Relationships: []
+      }
       enquiries: {
         Row: {
           created_at: string
@@ -323,6 +353,7 @@ export type Database = {
           is_admin: boolean
         }[]
       }
+      admin_recent_abuse_stats: { Args: { _minutes?: number }; Returns: Json }
       admin_set_admin: {
         Args: { _make_admin: boolean; _user_id: string }
         Returns: undefined
