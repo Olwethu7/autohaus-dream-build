@@ -59,8 +59,12 @@ function TestDrive() {
       const token = await getRecaptchaToken("test_drive");
       const res = await send({ data: { ...parsed.data, token, notes: parsed.data.notes || null } });
       if (!res.ok) {
-        const { captchaMessage } = await import("@/lib/captcha-messages");
-        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        if (res.error === "captcha") {
+          const { showCaptchaError } = await import("@/lib/captcha-toast");
+          showCaptchaError(res.reason, () => submit(e));
+        } else {
+          toast.error(res.error);
+        }
         return;
       }
       setDone(true);
