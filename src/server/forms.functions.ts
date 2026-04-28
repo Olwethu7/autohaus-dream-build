@@ -19,7 +19,7 @@ const enquirySchema = z.object({
 export const submitEnquiry = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => enquirySchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "enquiry", 0.5, data.email);
+    const verify = await verifyRecaptcha(data.token, "enquiry");
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("enquiries").insert({
       vehicle_id: data.vehicle_id ?? null,
@@ -45,7 +45,7 @@ const testDriveSchema = z.object({
 export const submitTestDrive = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => testDriveSchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "test_drive", 0.5, data.email);
+    const verify = await verifyRecaptcha(data.token, "test_drive");
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("test_drives").insert({
       vehicle_id: data.vehicle_id,
@@ -76,7 +76,7 @@ const sellSchema = z.object({
 export const submitSellRequest = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => sellSchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "sell", 0.5, data.email);
+    const verify = await verifyRecaptcha(data.token, "sell");
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("sell_requests").insert({
       name: data.name,
