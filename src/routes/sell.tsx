@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase as _supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { submitSellRequest } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
