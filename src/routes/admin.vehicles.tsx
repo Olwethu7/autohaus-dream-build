@@ -18,13 +18,18 @@ type V = {
   id: string; make: string; model: string; year: number; price: number; mileage: number;
   fuel_type: string; transmission: string; body_type: string; color: string | null;
   engine_size: string | null; doors: number | null; description: string | null;
+  drivetrain: string | null; condition: string | null;
+  co2_emissions: number | null; road_tax_band: string | null; mot_expiry: string | null;
   images: string[]; featured: boolean; sold: boolean;
 };
 
 const empty: Partial<V> = {
   make: "", model: "", year: new Date().getFullYear(), price: 0, mileage: 0,
   fuel_type: "Petrol", transmission: "Manual", body_type: "Saloon",
-  color: "", engine_size: "", doors: 4, description: "", images: [], featured: false, sold: false,
+  color: "", engine_size: "", doors: 4, description: "",
+  drivetrain: "FWD", condition: "Excellent",
+  co2_emissions: null, road_tax_band: "", mot_expiry: null,
+  images: [], featured: false, sold: false,
 };
 
 function VehiclesAdmin() {
@@ -47,6 +52,11 @@ function VehiclesAdmin() {
       color: editing.color || null, engine_size: editing.engine_size || null,
       doors: editing.doors ? Number(editing.doors) : null,
       description: editing.description || null, images: editing.images || [],
+      drivetrain: editing.drivetrain || null,
+      condition: editing.condition || null,
+      co2_emissions: editing.co2_emissions != null && String(editing.co2_emissions) !== "" ? Number(editing.co2_emissions) : null,
+      road_tax_band: editing.road_tax_band || null,
+      mot_expiry: editing.mot_expiry || null,
       featured: !!editing.featured, sold: !!editing.sold,
     };
     if (editing.id) {
@@ -149,6 +159,20 @@ function VehiclesAdmin() {
               <Input placeholder="Colour" value={editing.color || ""} onChange={(e) => setEditing({ ...editing, color: e.target.value })} />
               <Input placeholder="Engine size (e.g. 2.0L)" value={editing.engine_size || ""} onChange={(e) => setEditing({ ...editing, engine_size: e.target.value })} />
               <Input type="number" placeholder="Doors" value={editing.doors || ""} onChange={(e) => setEditing({ ...editing, doors: Number(e.target.value) })} />
+              <Select value={editing.drivetrain || ""} onValueChange={(v) => setEditing({ ...editing, drivetrain: v })}>
+                <SelectTrigger><SelectValue placeholder="Drivetrain" /></SelectTrigger>
+                <SelectContent>{["FWD","RWD","AWD","4WD"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+              <Select value={editing.condition || ""} onValueChange={(v) => setEditing({ ...editing, condition: v })}>
+                <SelectTrigger><SelectValue placeholder="Condition" /></SelectTrigger>
+                <SelectContent>{["Excellent","Good","Fair","Needs work"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+              <Input type="number" placeholder="CO₂ emissions (g/km)" value={editing.co2_emissions ?? ""} onChange={(e) => setEditing({ ...editing, co2_emissions: e.target.value === "" ? null : Number(e.target.value) })} />
+              <Input placeholder="Road tax band (e.g. C)" value={editing.road_tax_band || ""} onChange={(e) => setEditing({ ...editing, road_tax_band: e.target.value })} />
+              <div>
+                <label className="mb-1 block text-xs text-muted-foreground">MOT expiry</label>
+                <Input type="date" value={editing.mot_expiry || ""} onChange={(e) => setEditing({ ...editing, mot_expiry: e.target.value })} />
+              </div>
             </div>
             <Textarea className="mt-3" rows={4} placeholder="Description" value={editing.description || ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
 

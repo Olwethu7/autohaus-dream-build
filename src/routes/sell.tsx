@@ -69,7 +69,11 @@ function Sell() {
         asking_price: parsed.data.asking_price ?? null,
         description: parsed.data.description || null,
       }});
-      if (!res.ok) { toast.error(res.error || "Submission failed."); return; }
+      if (!res.ok) {
+        const { captchaMessage } = await import("@/lib/captcha-messages");
+        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        return;
+      }
       setDone(true);
     } catch {
       toast.error("Submission failed. Try again.");

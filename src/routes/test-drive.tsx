@@ -58,7 +58,11 @@ function TestDrive() {
     try {
       const token = await getRecaptchaToken("test_drive");
       const res = await send({ data: { ...parsed.data, token, notes: parsed.data.notes || null } });
-      if (!res.ok) { toast.error(res.error || "Could not book."); return; }
+      if (!res.ok) {
+        const { captchaMessage } = await import("@/lib/captcha-messages");
+        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        return;
+      }
       setDone(true);
     } catch {
       toast.error("Could not book. Try again.");
