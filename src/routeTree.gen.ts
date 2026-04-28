@@ -15,9 +15,16 @@ import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
+import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
+import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
+import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
+import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
+import { Route as AdminContentRouteImport } from './routes/admin.content'
 
 const TestDriveRoute = TestDriveRouteImport.update({
   id: '/test-drive',
@@ -49,6 +56,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -59,22 +71,59 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const VehicleIdRoute = VehicleIdRouteImport.update({
   id: '/vehicle/$id',
   path: '/vehicle/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminVehiclesRoute = AdminVehiclesRouteImport.update({
+  id: '/vehicles',
+  path: '/vehicles',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTestDrivesRoute = AdminTestDrivesRouteImport.update({
+  id: '/test-drives',
+  path: '/test-drives',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSellRequestsRoute = AdminSellRequestsRouteImport.update({
+  id: '/sell-requests',
+  path: '/sell-requests',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
+  id: '/enquiries',
+  path: '/enquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/sell-requests': typeof AdminSellRequestsRoute
+  '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,32 +134,52 @@ export interface FileRoutesByTo {
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/sell-requests': typeof AdminSellRequestsRoute
+  '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/sell-requests': typeof AdminSellRequestsRoute
+  '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/auth'
     | '/catalogue'
     | '/contact'
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/content'
+    | '/admin/enquiries'
+    | '/admin/sell-requests'
+    | '/admin/test-drives'
+    | '/admin/vehicles'
     | '/vehicle/$id'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -121,23 +190,37 @@ export interface FileRouteTypes {
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/content'
+    | '/admin/enquiries'
+    | '/admin/sell-requests'
+    | '/admin/test-drives'
+    | '/admin/vehicles'
     | '/vehicle/$id'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/auth'
     | '/catalogue'
     | '/contact'
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/content'
+    | '/admin/enquiries'
+    | '/admin/sell-requests'
+    | '/admin/test-drives'
+    | '/admin/vehicles'
     | '/vehicle/$id'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CatalogueRoute: typeof CatalogueRoute
   ContactRoute: typeof ContactRoute
@@ -191,6 +274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -205,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/vehicle/$id': {
       id: '/vehicle/$id'
       path: '/vehicle/$id'
@@ -212,12 +309,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VehicleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/vehicles': {
+      id: '/admin/vehicles'
+      path: '/vehicles'
+      fullPath: '/admin/vehicles'
+      preLoaderRoute: typeof AdminVehiclesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/test-drives': {
+      id: '/admin/test-drives'
+      path: '/test-drives'
+      fullPath: '/admin/test-drives'
+      preLoaderRoute: typeof AdminTestDrivesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/sell-requests': {
+      id: '/admin/sell-requests'
+      path: '/sell-requests'
+      fullPath: '/admin/sell-requests'
+      preLoaderRoute: typeof AdminSellRequestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/enquiries': {
+      id: '/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AdminEnquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminContentRoute: typeof AdminContentRoute
+  AdminEnquiriesRoute: typeof AdminEnquiriesRoute
+  AdminSellRequestsRoute: typeof AdminSellRequestsRoute
+  AdminTestDrivesRoute: typeof AdminTestDrivesRoute
+  AdminVehiclesRoute: typeof AdminVehiclesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminContentRoute: AdminContentRoute,
+  AdminEnquiriesRoute: AdminEnquiriesRoute,
+  AdminSellRequestsRoute: AdminSellRequestsRoute,
+  AdminTestDrivesRoute: AdminTestDrivesRoute,
+  AdminVehiclesRoute: AdminVehiclesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CatalogueRoute: CatalogueRoute,
   ContactRoute: ContactRoute,
