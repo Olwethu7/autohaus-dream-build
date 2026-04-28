@@ -27,6 +27,7 @@ import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
 import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 
 const TestDriveRoute = TestDriveRouteImport.update({
   id: '/test-drive',
@@ -118,6 +119,11 @@ const AdminContentRoute = AdminContentRouteImport.update({
   path: '/content',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
   '/test-drive': typeof TestDriveRoute
+  '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
     | '/admin/sell-requests'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
     | '/admin/sell-requests'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/sell'
     | '/test-drive'
+    | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
     | '/admin/sell-requests'
@@ -383,10 +395,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContentRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminAuditRoute: typeof AdminAuditRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminSellRequestsRoute: typeof AdminSellRequestsRoute
@@ -397,6 +417,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAuditRoute: AdminAuditRoute,
   AdminContentRoute: AdminContentRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminSellRequestsRoute: AdminSellRequestsRoute,
