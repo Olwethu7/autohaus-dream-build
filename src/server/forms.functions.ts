@@ -1,7 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { verifyRecaptcha } from "./recaptcha.server";
+import { verifyRecaptcha, type CaptchaFailReason } from "./recaptcha.server";
+
+type FormResult =
+  | { ok: true }
+  | { ok: false; error: string; reason?: CaptchaFailReason };
 
 const enquirySchema = z.object({
   token: z.string().min(1),
@@ -14,9 +18,9 @@ const enquirySchema = z.object({
 
 export const submitEnquiry = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => enquirySchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<FormResult> => {
     const verify = await verifyRecaptcha(data.token, "enquiry");
-    if (!verify.ok) return { ok: false, error: "Captcha verification failed" };
+    if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("enquiries").insert({
       vehicle_id: data.vehicle_id ?? null,
       name: data.name,
@@ -24,8 +28,8 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       phone: data.phone || null,
       message: data.message,
     });
-    if (error) return { ok: false, error: "Could not save enquiry" };
-    return { ok: true as const };
+    if (error) return { ok: false, error: "Could not save enquiry. Please try again." };
+    return { ok: true };
   });
 
 const testDriveSchema = z.object({
@@ -40,9 +44,9 @@ const testDriveSchema = z.object({
 
 export const submitTestDrive = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => testDriveSchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<FormResult> => {
     const verify = await verifyRecaptcha(data.token, "test_drive");
-    if (!verify.ok) return { ok: false, error: "Captcha verification failed" };
+    if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("test_drives").insert({
       vehicle_id: data.vehicle_id,
       name: data.name,
@@ -51,8 +55,8 @@ export const submitTestDrive = createServerFn({ method: "POST" })
       preferred_date: data.preferred_date,
       notes: data.notes || null,
     });
-    if (error) return { ok: false, error: "Could not book test drive" };
-    return { ok: true as const };
+    if (error) return { ok: false, error: "Could not book test drive. Please try again." };
+    return { ok: true };
   });
 
 const sellSchema = z.object({
@@ -71,9 +75,9 @@ const sellSchema = z.object({
 
 export const submitSellRequest = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => sellSchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<FormResult> => {
     const verify = await verifyRecaptcha(data.token, "sell");
-    if (!verify.ok) return { ok: false, error: "Captcha verification failed" };
+    if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("sell_requests").insert({
       name: data.name,
       email: data.email,
@@ -86,6 +90,20 @@ export const submitSellRequest = createServerFn({ method: "POST" })
       asking_price: data.asking_price ?? null,
       description: data.description || null,
     });
-    if (error) return { ok: false, error: "Could not submit request" };
-    return { ok: true as const };
+    if (error) return { ok: false, error: "Could not submit request. Please try again." };
+    return { ok: true };
+  });
+
+// Lightweight captcha-only verify, used to gate navigation away from the
+// compare page into the booking flow.
+const verifySchema = z.object({
+  token: z.string().min(1),
+  action: z.enum(["compare_proceed"]),
+});
+
+export const verifyCaptcha = createServerFn({ method: "POST" })
+  .inputValidator((d: unknown) => verifySchema.parse(d))
+  .handler(async ({ data }): Promise<{ ok: true } | { ok: false; reason: CaptchaFailReason }> => {
+    const r = await verifyRecaptcha(data.token, data.action);
+    return r.ok ? { ok: true } : { ok: false, reason: r.reason };
   });
