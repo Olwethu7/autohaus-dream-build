@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { Shield, ShieldOff, Car, Pencil, Trash2, RefreshCw, X, FilterX } from "lucide-react";
+import { Shield, ShieldOff, Car, Pencil, Trash2, RefreshCw, FilterX } from "lucide-react";
 
 export const Route = createFileRoute("/admin/audit")({
   component: AuditLog,
