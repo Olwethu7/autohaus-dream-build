@@ -13,6 +13,7 @@ import { Route as TestDriveRouteImport } from './routes/test-drive'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -45,6 +46,11 @@ const FinanceRoute = FinanceRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogueRoute = CatalogueRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
   '/sell': typeof SellRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/catalogue'
+    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/catalogue'
+    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/catalogue'
+    | '/compare'
     | '/contact'
     | '/finance'
     | '/sell'
@@ -235,6 +247,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CatalogueRoute: typeof CatalogueRoute
+  CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   FinanceRoute: typeof FinanceRoute
   SellRoute: typeof SellRoute
@@ -270,6 +283,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/catalogue': {
@@ -394,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CatalogueRoute: CatalogueRoute,
+  CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   FinanceRoute: FinanceRoute,
   SellRoute: SellRoute,
@@ -403,3 +424,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
