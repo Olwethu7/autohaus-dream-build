@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string
+          details: Json
+          entity_id: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
       enquiries: {
         Row: {
           created_at: string
@@ -201,10 +234,13 @@ export type Database = {
       vehicles: {
         Row: {
           body_type: string
+          co2_emissions: number | null
           color: string | null
+          condition: string | null
           created_at: string
           description: string | null
           doors: number | null
+          drivetrain: string | null
           engine_size: string | null
           featured: boolean
           fuel_type: string
@@ -213,7 +249,9 @@ export type Database = {
           make: string
           mileage: number
           model: string
+          mot_expiry: string | null
           price: number
+          road_tax_band: string | null
           sold: boolean
           transmission: string
           updated_at: string
@@ -221,10 +259,13 @@ export type Database = {
         }
         Insert: {
           body_type?: string
+          co2_emissions?: number | null
           color?: string | null
+          condition?: string | null
           created_at?: string
           description?: string | null
           doors?: number | null
+          drivetrain?: string | null
           engine_size?: string | null
           featured?: boolean
           fuel_type?: string
@@ -233,7 +274,9 @@ export type Database = {
           make: string
           mileage?: number
           model: string
+          mot_expiry?: string | null
           price: number
+          road_tax_band?: string | null
           sold?: boolean
           transmission?: string
           updated_at?: string
@@ -241,10 +284,13 @@ export type Database = {
         }
         Update: {
           body_type?: string
+          co2_emissions?: number | null
           color?: string | null
+          condition?: string | null
           created_at?: string
           description?: string | null
           doors?: number | null
+          drivetrain?: string | null
           engine_size?: string | null
           featured?: boolean
           fuel_type?: string
@@ -253,7 +299,9 @@ export type Database = {
           make?: string
           mileage?: number
           model?: string
+          mot_expiry?: string | null
           price?: number
+          road_tax_band?: string | null
           sold?: boolean
           transmission?: string
           updated_at?: string
@@ -286,6 +334,15 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      log_admin_action: {
+        Args: {
+          _action: string
+          _details: Json
+          _entity_id: string
+          _entity_type: string
+        }
+        Returns: undefined
       }
     }
     Enums: {
