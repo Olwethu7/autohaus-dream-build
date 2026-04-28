@@ -70,8 +70,12 @@ function Sell() {
         description: parsed.data.description || null,
       }});
       if (!res.ok) {
-        const { captchaMessage } = await import("@/lib/captcha-messages");
-        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        if (res.error === "captcha") {
+          const { showCaptchaError } = await import("@/lib/captcha-toast");
+          showCaptchaError(res.reason, () => submit());
+        } else {
+          toast.error(res.error);
+        }
         return;
       }
       setDone(true);

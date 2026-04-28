@@ -9,7 +9,7 @@ import { X, GitCompareArrows, ShieldCheck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { verifyCaptcha } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
-import { captchaMessage } from "@/lib/captcha-messages";
+
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/compare")({
@@ -58,7 +58,8 @@ function ComparePage() {
       const token = await getRecaptchaToken("compare_proceed");
       const res = await verify({ data: { token, action: "compare_proceed" } });
       if (!res.ok) {
-        toast.error(captchaMessage(res.reason));
+        const { showCaptchaError } = await import("@/lib/captcha-toast");
+        showCaptchaError(res.reason, () => proceedToTestDrive(vehicleId));
         return;
       }
       nav({ to: "/test-drive", search: { vehicleId } });
