@@ -14,69 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      admin_audit_log: {
-        Row: {
-          action: string
-          actor_email: string | null
-          actor_id: string | null
-          created_at: string
-          details: Json
-          entity_id: string | null
-          entity_type: string
-          id: string
-        }
-        Insert: {
-          action: string
-          actor_email?: string | null
-          actor_id?: string | null
-          created_at?: string
-          details?: Json
-          entity_id?: string | null
-          entity_type: string
-          id?: string
-        }
-        Update: {
-          action?: string
-          actor_email?: string | null
-          actor_id?: string | null
-          created_at?: string
-          details?: Json
-          entity_id?: string | null
-          entity_type?: string
-          id?: string
-        }
-        Relationships: []
-      }
-      captcha_failures: {
-        Row: {
-          action: string
-          created_at: string
-          details: Json
-          email: string | null
-          id: string
-          ip: string | null
-          reason: string
-        }
-        Insert: {
-          action: string
-          created_at?: string
-          details?: Json
-          email?: string | null
-          id?: string
-          ip?: string | null
-          reason: string
-        }
-        Update: {
-          action?: string
-          created_at?: string
-          details?: Json
-          email?: string | null
-          id?: string
-          ip?: string | null
-          reason?: string
-        }
-        Relationships: []
-      }
       enquiries: {
         Row: {
           created_at: string
@@ -344,36 +281,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      admin_list_users: {
-        Args: never
-        Returns: {
-          created_at: string
-          email: string
-          id: string
-          is_admin: boolean
-        }[]
-      }
-      admin_recent_abuse_stats: { Args: { _minutes?: number }; Returns: Json }
-      admin_set_admin: {
-        Args: { _make_admin: boolean; _user_id: string }
-        Returns: undefined
-      }
-      claim_first_admin: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
-      }
-      log_admin_action: {
-        Args: {
-          _action: string
-          _details: Json
-          _entity_id: string
-          _entity_type: string
-        }
-        Returns: undefined
       }
     }
     Enums: {
