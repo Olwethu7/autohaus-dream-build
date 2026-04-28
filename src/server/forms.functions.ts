@@ -76,7 +76,7 @@ const sellSchema = z.object({
 export const submitSellRequest = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => sellSchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "sell");
+    const verify = await verifyRecaptcha(data.token, "sell", 0.5, data.email);
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("sell_requests").insert({
       name: data.name,
