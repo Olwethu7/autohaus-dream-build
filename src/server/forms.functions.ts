@@ -19,7 +19,7 @@ const enquirySchema = z.object({
 export const submitEnquiry = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => enquirySchema.parse(d))
   .handler(async ({ data }): Promise<FormResult> => {
-    const verify = await verifyRecaptcha(data.token, "enquiry");
+    const verify = await verifyRecaptcha(data.token, "enquiry", 0.5, data.email);
     if (!verify.ok) return { ok: false, error: "captcha", reason: verify.reason };
     const { error } = await supabaseAdmin.from("enquiries").insert({
       vehicle_id: data.vehicle_id ?? null,
