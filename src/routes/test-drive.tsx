@@ -8,6 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { submitTestDrive } from "@/server/forms.functions";
+import { getRecaptchaToken } from "@/lib/recaptcha";
 import { CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/test-drive")({
@@ -34,6 +37,7 @@ type V = { id: string; make: string; model: string; year: number };
 
 function TestDrive() {
   const { vehicleId } = Route.useSearch();
+  const send = useServerFn(submitTestDrive);
   const [vehicles, setVehicles] = useState<V[]>([]);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -51,13 +55,16 @@ function TestDrive() {
     const parsed = schema.safeParse(f);
     if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
     setSubmitting(true);
-    const { error } = await supabase.from("test_drives").insert({
-      ...parsed.data,
-      notes: parsed.data.notes || null,
-    });
-    setSubmitting(false);
-    if (error) { toast.error("Could not book. Try again."); return; }
-    setDone(true);
+    try {
+      const token = await getRecaptchaToken("test_drive");
+      const res = await send({ data: { ...parsed.data, token, notes: parsed.data.notes || null } });
+      if (!res.ok) { toast.error(res.error || "Could not book."); return; }
+      setDone(true);
+    } catch {
+      toast.error("Could not book. Try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (done) {
