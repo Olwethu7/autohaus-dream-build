@@ -36,8 +36,12 @@ export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
         message: parsed.data.message,
       }});
       if (!res.ok) {
-        const { captchaMessage } = await import("@/lib/captcha-messages");
-        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        if (res.error === "captcha") {
+          const { showCaptchaError } = await import("@/lib/captcha-toast");
+          showCaptchaError(res.reason, () => onSubmit(e));
+        } else {
+          toast.error(res.error);
+        }
         return;
       }
       toast.success("Enquiry sent! We'll be in touch shortly.");
