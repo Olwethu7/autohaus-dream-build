@@ -52,8 +52,22 @@ function AdminShell() {
         <div className="mx-auto max-w-xl px-4 py-20 text-center">
           <h1 className="font-display text-3xl">Awaiting admin access</h1>
           <p className="mt-3 text-muted-foreground">
-            Signed in as <span className="font-medium">{userEmail}</span>. An existing admin needs to grant you access.
+            Signed in as <span className="font-medium">{userEmail}</span>. An existing admin needs to grant you access from the Users page.
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            If no admin exists yet, you can claim the first admin role:
+          </p>
+          <button
+            onClick={async () => {
+              const { error } = await supabase.rpc("claim_first_admin");
+              if (error) { toast.error(error.message); return; }
+              toast.success("You're now an admin");
+              location.reload();
+            }}
+            className="mt-4 inline-flex items-center gap-2 rounded-md bg-gradient-gold px-4 py-2 text-sm font-semibold text-gold-foreground"
+          >
+            Claim first admin
+          </button>
           <div className="mt-6">
             <button onClick={signOut} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
               <LogOut className="h-4 w-4" /> Sign out
