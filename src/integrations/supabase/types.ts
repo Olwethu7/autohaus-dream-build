@@ -14,16 +14,268 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      enquiries: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+          vehicle_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+          vehicle_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+          vehicle_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enquiries_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sell_requests: {
+        Row: {
+          asking_price: number | null
+          condition: string
+          created_at: string
+          description: string | null
+          email: string
+          id: string
+          images: string[]
+          make: string
+          mileage: number
+          model: string
+          name: string
+          phone: string
+          status: string
+          year: number
+        }
+        Insert: {
+          asking_price?: number | null
+          condition: string
+          created_at?: string
+          description?: string | null
+          email: string
+          id?: string
+          images?: string[]
+          make: string
+          mileage: number
+          model: string
+          name: string
+          phone: string
+          status?: string
+          year: number
+        }
+        Update: {
+          asking_price?: number | null
+          condition?: string
+          created_at?: string
+          description?: string | null
+          email?: string
+          id?: string
+          images?: string[]
+          make?: string
+          mileage?: number
+          model?: string
+          name?: string
+          phone?: string
+          status?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          body: string | null
+          id: string
+          image_url: string | null
+          key: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          id?: string
+          image_url?: string | null
+          key: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          id?: string
+          image_url?: string | null
+          key?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      test_drives: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string
+          preferred_date: string
+          status: string
+          vehicle_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone: string
+          preferred_date: string
+          status?: string
+          vehicle_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string
+          preferred_date?: string
+          status?: string
+          vehicle_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_drives_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vehicles: {
+        Row: {
+          body_type: string
+          color: string | null
+          created_at: string
+          description: string | null
+          doors: number | null
+          engine_size: string | null
+          featured: boolean
+          fuel_type: string
+          id: string
+          images: string[]
+          make: string
+          mileage: number
+          model: string
+          price: number
+          sold: boolean
+          transmission: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          body_type?: string
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          doors?: number | null
+          engine_size?: string | null
+          featured?: boolean
+          fuel_type?: string
+          id?: string
+          images?: string[]
+          make: string
+          mileage?: number
+          model: string
+          price: number
+          sold?: boolean
+          transmission?: string
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          body_type?: string
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          doors?: number | null
+          engine_size?: string | null
+          featured?: boolean
+          fuel_type?: string
+          id?: string
+          images?: string[]
+          make?: string
+          mileage?: number
+          model?: string
+          price?: number
+          sold?: boolean
+          transmission?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +402,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
