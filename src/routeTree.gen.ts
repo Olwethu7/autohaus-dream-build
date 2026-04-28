@@ -25,6 +25,7 @@ import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
 import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
+import { Route as AdminRlsCheckRouteImport } from './routes/admin.rls-check'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
@@ -109,6 +110,11 @@ const AdminSellRequestsRoute = AdminSellRequestsRouteImport.update({
   path: '/sell-requests',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminRlsCheckRoute = AdminRlsCheckRouteImport.update({
+  id: '/rls-check',
+  path: '/rls-check',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
   id: '/enquiries',
   path: '/enquiries',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/rls-check': typeof AdminRlsCheckRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
   '/admin/users': typeof AdminUsersRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/rls-check'
     | '/admin/sell-requests'
     | '/admin/test-drives'
     | '/admin/users'
@@ -381,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSellRequestsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/rls-check': {
+      id: '/admin/rls-check'
+      path: '/rls-check'
+      fullPath: '/admin/rls-check'
+      preLoaderRoute: typeof AdminRlsCheckRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/enquiries': {
       id: '/admin/enquiries'
       path: '/enquiries'
@@ -409,6 +428,7 @@ interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
+  AdminRlsCheckRoute: typeof AdminRlsCheckRoute
   AdminSellRequestsRoute: typeof AdminSellRequestsRoute
   AdminTestDrivesRoute: typeof AdminTestDrivesRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -420,6 +440,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminContentRoute: AdminContentRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
+  AdminRlsCheckRoute: AdminRlsCheckRoute,
   AdminSellRequestsRoute: AdminSellRequestsRoute,
   AdminTestDrivesRoute: AdminTestDrivesRoute,
   AdminUsersRoute: AdminUsersRoute,
