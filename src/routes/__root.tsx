@@ -1,6 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
-import { CompareProvider } from "@/components/site/CompareContext";
 
 import appCss from "../styles.css?url";
 
