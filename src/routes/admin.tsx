@@ -18,6 +18,7 @@ const items = [
   { to: "/admin/content", label: "Site content", icon: FileText },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/audit", label: "Audit log", icon: History },
+  { to: "/admin/rls-check", label: "RLS check", icon: ShieldCheck },
 ];
 
 function AdminShell() {
