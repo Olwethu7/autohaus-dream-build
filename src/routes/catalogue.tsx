@@ -92,7 +92,7 @@ function Catalogue() {
           </div>
         )}
       </section>
-      <CompareBar />
+      
     </Layout>
   );
 }
