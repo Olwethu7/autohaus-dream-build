@@ -93,17 +93,3 @@ export const submitSellRequest = createServerFn({ method: "POST" })
     if (error) return { ok: false, error: "Could not submit request. Please try again." };
     return { ok: true };
   });
-
-// Lightweight captcha-only verify, used to gate navigation away from the
-// compare page into the booking flow.
-const verifySchema = z.object({
-  token: z.string().min(1),
-  action: z.enum(["compare_proceed"]),
-});
-
-export const verifyCaptcha = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => verifySchema.parse(d))
-  .handler(async ({ data }): Promise<{ ok: true } | { ok: false; reason: CaptchaFailReason }> => {
-    const r = await verifyRecaptcha(data.token, data.action);
-    return r.ok ? { ok: true } : { ok: false, reason: r.reason };
-  });
