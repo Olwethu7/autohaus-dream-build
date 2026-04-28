@@ -1,8 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Gauge, Fuel, Settings2, Check } from "lucide-react";
+import { Gauge, Fuel, Settings2 } from "lucide-react";
 import { formatGBP, formatMiles } from "@/lib/format";
-import { useCompare, COMPARE_MAX } from "./CompareContext";
-import { toast } from "sonner";
 
 export type Vehicle = {
   id: string;
@@ -21,44 +19,12 @@ export type Vehicle = {
 const placeholderImg = (v: Vehicle) =>
   `https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=70&auto=format&fit=crop&seed=${v.id}`;
 
-export function VehicleCard({ v, showCompare = true }: { v: Vehicle; showCompare?: boolean }) {
+export function VehicleCard({ v }: { v: Vehicle }) {
   const img = v.images?.[0] || placeholderImg(v);
-  const compare = useCompare();
-  const selected = compare.has(v.id);
-
-  const onCompareClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!selected && compare.ids.length >= COMPARE_MAX) {
-      toast.error(`You can compare up to ${COMPARE_MAX} vehicles. Remove one first.`);
-      return;
-    }
-    const now = compare.toggle(v.id);
-    toast.success(now ? "Added to compare" : "Removed from compare");
-  };
 
   return (
     <div className="group relative overflow-hidden rounded-xl bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-luxe">
-      {showCompare && (
-        <button
-          type="button"
-          onClick={onCompareClick}
-          aria-pressed={selected}
-          aria-label={selected ? "Remove from compare" : "Add to compare"}
-          className={`absolute left-3 bottom-3 z-10 inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-semibold backdrop-blur transition ${
-            selected
-              ? "bg-gold text-gold-foreground"
-              : "bg-background/90 text-foreground hover:bg-background"
-          }`}
-        >
-          {selected ? <><Check className="h-3.5 w-3.5" /> Comparing</> : "Compare"}
-        </button>
-      )}
-      <Link
-        to="/vehicle/$id"
-        params={{ id: v.id }}
-        className="block"
-      >
+      <Link to="/vehicle/$id" params={{ id: v.id }} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img
             src={img}
