@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { VehicleCard, type Vehicle } from "@/components/site/VehicleCard";
+import { CompareBar } from "@/components/site/CompareBar";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -91,6 +92,7 @@ function Catalogue() {
           </div>
         )}
       </section>
+      <CompareBar />
     </Layout>
   );
 }
