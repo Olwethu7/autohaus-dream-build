@@ -7,7 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase as _supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { submitSellRequest } from "@/server/forms.functions";
+import { getRecaptchaToken } from "@/lib/recaptcha";
 import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/sell")({
@@ -34,6 +37,7 @@ const schema = z.object({
 });
 
 function Sell() {
+  const send = useServerFn(submitSellRequest);
   const [step, setStep] = useState(1);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -58,14 +62,21 @@ function Sell() {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("sell_requests").insert({
-      ...parsed.data,
-      asking_price: parsed.data.asking_price ?? null,
-      description: parsed.data.description || null,
-    });
-    setSubmitting(false);
-    if (error) { toast.error("Submission failed. Try again."); return; }
-    setDone(true);
+    try {
+      const token = await getRecaptchaToken("sell");
+      const res = await send({ data: {
+        ...parsed.data,
+        token,
+        asking_price: parsed.data.asking_price ?? null,
+        description: parsed.data.description || null,
+      }});
+      if (!res.ok) { toast.error(res.error || "Submission failed."); return; }
+      setDone(true);
+    } catch {
+      toast.error("Submission failed. Try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (done) {
