@@ -35,11 +35,15 @@ export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
         phone: parsed.data.phone || null,
         message: parsed.data.message,
       }});
-      if (!res.ok) { toast.error(res.error || "Could not send."); return; }
+      if (!res.ok) {
+        const { captchaMessage } = await import("@/lib/captcha-messages");
+        toast.error(res.error === "captcha" ? captchaMessage(res.reason) : res.error);
+        return;
+      }
       toast.success("Enquiry sent! We'll be in touch shortly.");
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch {
-      toast.error("Could not send. Please try again.");
+      toast.error("Couldn't reach our security check. Please try again in a moment.");
     } finally {
       setSubmitting(false);
     }
