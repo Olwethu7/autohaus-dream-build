@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useServerFn } from "@tanstack/react-start";
+import { submitEnquiry } from "@/server/forms.functions";
+import { getRecaptchaToken } from "@/lib/recaptcha";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Name required").max(80),
@@ -14,31 +16,33 @@ const schema = z.object({
 });
 
 export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
+  const submit = useServerFn(submitEnquiry);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
-    if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
-      return;
-    }
+    if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
     setSubmitting(true);
-    const { error } = await supabase.from("enquiries").insert({
-      vehicle_id: vehicleId ?? null,
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone || null,
-      message: parsed.data.message,
-    });
-    setSubmitting(false);
-    if (error) {
+    try {
+      const token = await getRecaptchaToken("enquiry");
+      const res = await submit({ data: {
+        token,
+        vehicle_id: vehicleId ?? null,
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone || null,
+        message: parsed.data.message,
+      }});
+      if (!res.ok) { toast.error(res.error || "Could not send."); return; }
+      toast.success("Enquiry sent! We'll be in touch shortly.");
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch {
       toast.error("Could not send. Please try again.");
-      return;
+    } finally {
+      setSubmitting(false);
     }
-    toast.success("Enquiry sent! We'll be in touch shortly.");
-    setForm({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
@@ -50,7 +54,9 @@ export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
       <Button type="submit" className="w-full" disabled={submitting}>
         {submitting ? "Sending…" : "Send enquiry"}
       </Button>
-      <p className="text-[11px] text-muted-foreground">We'll only use your details to reply to this enquiry.</p>
+      <p className="text-[11px] text-muted-foreground">
+        Protected by reCAPTCHA. We'll only use your details to reply.
+      </p>
     </form>
   );
 }
