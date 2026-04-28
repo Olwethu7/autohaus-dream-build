@@ -60,8 +60,8 @@ function TestDrive() {
       const res = await send({ data: { ...parsed.data, token, notes: parsed.data.notes || null } });
       if (!res.ok) {
         if (res.error === "captcha") {
-          const { showCaptchaError } = await import("@/lib/captcha-toast");
-          showCaptchaError(res.reason, () => submit(e));
+          const { captchaMessage } = await import("@/lib/captcha-messages");
+          toast.error(captchaMessage(res.reason).description);
         } else {
           toast.error(res.error);
         }
