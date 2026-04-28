@@ -9,7 +9,7 @@ import { X, GitCompareArrows, ShieldCheck } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { verifyCaptcha } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
-import { captchaMessage } from "@/lib/captcha-messages";
+
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/compare")({
