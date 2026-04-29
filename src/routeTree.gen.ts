@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestDriveRouteImport } from './routes/test-drive'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SellRouteImport } from './routes/sell'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
@@ -32,9 +34,19 @@ const TestDriveRoute = TestDriveRouteImport.update({
   path: '/test-drive',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SellRoute = SellRouteImport.update({
   id: '/sell',
   path: '/sell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceRoute = FinanceRouteImport.update({
@@ -121,7 +133,9 @@ export interface FileRoutesByFullPath {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -139,7 +153,9 @@ export interface FileRoutesByTo {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -159,7 +175,9 @@ export interface FileRoutesById {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -180,7 +198,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/robots.txt'
     | '/sell'
+    | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
@@ -198,7 +218,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/robots.txt'
     | '/sell'
+    | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
@@ -217,7 +239,9 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/robots.txt'
     | '/sell'
+    | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
@@ -237,7 +261,9 @@ export interface RootRouteChildren {
   CatalogueRoute: typeof CatalogueRoute
   ContactRoute: typeof ContactRoute
   FinanceRoute: typeof FinanceRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   SellRoute: typeof SellRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestDriveRoute: typeof TestDriveRoute
   VehicleIdRoute: typeof VehicleIdRoute
 }
@@ -251,11 +277,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestDriveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sell': {
       id: '/sell'
       path: '/sell'
       fullPath: '/sell'
       preLoaderRoute: typeof SellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance': {
@@ -396,7 +436,9 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogueRoute: CatalogueRoute,
   ContactRoute: ContactRoute,
   FinanceRoute: FinanceRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   SellRoute: SellRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestDriveRoute: TestDriveRoute,
   VehicleIdRoute: VehicleIdRoute,
 }
