@@ -42,17 +42,17 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-gold">Visit Us</h4>
           <ul className="mt-4 space-y-3 text-sm">
-            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 text-gold" /> 14 Showroom Lane, Manchester M1 1AB</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-gold" /> 0161 555 0199</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-gold" /> sales@mlgautohaus.co.uk</li>
+            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 text-gold" /> Visit our showroom in Durban</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-gold" /> 031 942 1272</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-gold" /> info@mlgauto.co.za</li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-primary-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-primary-foreground/60 sm:flex-row sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} MLG Autohaus Ltd. All rights reserved.</p>
-          <p>VAT 123 4567 89 · Mon–Sat 9:00–18:00</p>
+          <p>© {new Date().getFullYear()} MLG Autohaus. All rights reserved.</p>
+          <p>Mon–Fri 8:00–17:00 · Sat 9:00–13:00</p>
         </div>
       </div>
     </footer>
