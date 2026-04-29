@@ -35,18 +35,18 @@ function Home() {
         <img src={heroImg} alt="MLG Autohaus showroom" className="absolute inset-0 h-full w-full object-cover" width={1920} height={1080} />
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 sm:py-36 lg:px-8 lg:py-44">
-          <div className="max-w-2xl text-primary-foreground">
+          <div className="max-w-2xl text-primary-foreground animate-fade-in">
             <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-gold">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Family-run since 2008
+              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Trusted South African dealership
             </div>
             <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
-              Premium used cars,<br /><span className="text-gold">honestly priced.</span>
+              Premium Pre-Owned &<br /><span className="text-gold">Franchise Vehicles.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
-              Hand-picked stock, fully inspected, ready to drive away. Browse our catalogue or book a no-obligation test drive today.
+              Trusted dealership serving South Africa. Quality vehicles, transparent prices.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/catalogue" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
+              <Link to="/catalogue" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-all hover:scale-[1.03] hover:shadow-luxe">
                 Browse catalogue <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to="/finance" className="inline-flex items-center gap-2 rounded-md border border-primary-foreground/30 bg-background/10 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-background/20">
