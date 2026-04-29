@@ -27,7 +27,7 @@ export function Footer() {
             <li><Link to="/catalogue" className="hover:text-gold">Catalogue</Link></li>
             <li><Link to="/finance" className="hover:text-gold">Finance Calculator</Link></li>
             <li><Link to="/sell" className="hover:text-gold">Sell Your Car</Link></li>
-            <li><Link to="/test-drive" className="hover:text-gold">Book Test Drive</Link></li>
+            <li><Link to="/test-drive" search={{ vehicleId: undefined }} className="hover:text-gold">Book Test Drive</Link></li>
           </ul>
         </div>
 
