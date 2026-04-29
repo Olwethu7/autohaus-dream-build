@@ -14,7 +14,7 @@ export function Footer() {
             <div className="font-display text-lg font-bold">MLG Autohaus</div>
           </div>
           <p className="mt-4 max-w-sm text-sm text-primary-foreground/70">
-            Hand-picked premium used cars. Family-run since 2008.
+            Premium pre-owned & franchise vehicles. Trusted dealership serving South Africa.
           </p>
           <div className="mt-6 max-w-sm">
             <NewsletterSignup />
