@@ -26,16 +26,33 @@ function AdminShell() {
   const nav = useNavigate();
   const [ready, setReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
+    // The /admin/login page is itself under the /admin path tree.
+    // Don't gate it — let the login page render.
+    if (typeof window !== "undefined" && window.location.pathname === "/admin/login") {
+      setReady(true);
+      setIsAdmin(true); // bypass shell gating; login page renders its own UI via Outlet
+      return;
+    }
+
     const check = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { nav({ to: "/auth" }); return; }
-      setUserEmail(session.user.email ?? null);
+      if (!session) {
+        nav({ to: "/admin/login" });
+        return;
+      }
       const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
       const admin = (roles || []).some((r) => r.role === "admin");
-      setIsAdmin(admin);
+      if (!admin) {
+        // Customer account trying to reach admin area — sign them out of the admin context
+        // and bounce to the customer auth page with a clear message.
+        await supabase.auth.signOut();
+        toast.error("That account doesn't have admin access.");
+        nav({ to: "/auth" });
+        return;
+      }
+      setIsAdmin(true);
       setReady(true);
     };
     check();
@@ -47,38 +64,16 @@ function AdminShell() {
     nav({ to: "/" });
   };
 
+  // Login page renders standalone, without the admin shell chrome.
+  if (typeof window !== "undefined" && window.location.pathname === "/admin/login") {
+    return <Outlet />;
+  }
+
   if (!ready) return <Layout><div className="mx-auto max-w-7xl px-4 py-20">Loading…</div></Layout>;
 
   if (!isAdmin) {
-    return (
-      <Layout>
-        <div className="mx-auto max-w-xl px-4 py-20 text-center">
-          <h1 className="font-display text-3xl">Awaiting admin access</h1>
-          <p className="mt-3 text-muted-foreground">
-            Signed in as <span className="font-medium">{userEmail}</span>. An existing admin needs to grant you access from the Users page.
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            If no admin exists yet, you can claim the first admin role:
-          </p>
-          <button
-            onClick={async () => {
-              const { error } = await supabase.rpc("claim_first_admin");
-              if (error) { toast.error(error.message); return; }
-              toast.success("You're now an admin");
-              location.reload();
-            }}
-            className="mt-4 inline-flex items-center gap-2 rounded-md bg-gradient-gold px-4 py-2 text-sm font-semibold text-gold-foreground"
-          >
-            Claim first admin
-          </button>
-          <div className="mt-6">
-            <button onClick={signOut} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-              <LogOut className="h-4 w-4" /> Sign out
-            </button>
-          </div>
-        </div>
-      </Layout>
-    );
+    // Should never render — effect redirects — but keep a safe fallback.
+    return null;
   }
 
   return (
