@@ -47,10 +47,10 @@ export function Header() {
             </Link>
           ))}
           <Link
-            to={authed ? "/admin" : "/auth"}
+            to="/auth"
             className="rounded-md border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
           >
-            {authed ? "Admin" : "Sign In"}
+            {authed ? "My Account" : "Sign In"}
           </Link>
         </nav>
 
