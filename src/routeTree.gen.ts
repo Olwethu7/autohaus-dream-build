@@ -13,6 +13,8 @@ import { Route as TestDriveRouteImport } from './routes/test-drive'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
@@ -24,8 +26,11 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
 import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
 import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
 import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
+import { Route as AdminProfileRouteImport } from './routes/admin.profile'
+import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 
@@ -47,6 +52,16 @@ const SellRoute = SellRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceRoute = FinanceRouteImport.update({
@@ -104,6 +119,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminTestDrivesRoute = AdminTestDrivesRouteImport.update({
   id: '/test-drives',
   path: '/test-drives',
@@ -112,6 +132,16 @@ const AdminTestDrivesRoute = AdminTestDrivesRouteImport.update({
 const AdminSellRequestsRoute = AdminSellRequestsRouteImport.update({
   id: '/sell-requests',
   path: '/sell-requests',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProfileRoute = AdminProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
@@ -133,14 +163,19 @@ export interface FileRoutesByFullPath {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -153,14 +188,19 @@ export interface FileRoutesByTo {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -175,14 +215,19 @@ export interface FileRoutesById {
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sell': typeof SellRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
+  '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
   '/admin/test-drives': typeof AdminTestDrivesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
   '/vehicle/$id': typeof VehicleIdRoute
@@ -198,14 +243,19 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/forgot-password'
+    | '/reset-password'
     | '/robots.txt'
     | '/sell'
     | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/newsletter'
+    | '/admin/profile'
     | '/admin/sell-requests'
     | '/admin/test-drives'
+    | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
     | '/vehicle/$id'
@@ -218,14 +268,19 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/forgot-password'
+    | '/reset-password'
     | '/robots.txt'
     | '/sell'
     | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/newsletter'
+    | '/admin/profile'
     | '/admin/sell-requests'
     | '/admin/test-drives'
+    | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
     | '/vehicle/$id'
@@ -239,14 +294,19 @@ export interface FileRouteTypes {
     | '/catalogue'
     | '/contact'
     | '/finance'
+    | '/forgot-password'
+    | '/reset-password'
     | '/robots.txt'
     | '/sell'
     | '/sitemap.xml'
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/newsletter'
+    | '/admin/profile'
     | '/admin/sell-requests'
     | '/admin/test-drives'
+    | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
     | '/vehicle/$id'
@@ -261,6 +321,8 @@ export interface RootRouteChildren {
   CatalogueRoute: typeof CatalogueRoute
   ContactRoute: typeof ContactRoute
   FinanceRoute: typeof FinanceRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SellRoute: typeof SellRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -296,6 +358,20 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance': {
@@ -375,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/test-drives': {
       id: '/admin/test-drives'
       path: '/test-drives'
@@ -387,6 +470,20 @@ declare module '@tanstack/react-router' {
       path: '/sell-requests'
       fullPath: '/admin/sell-requests'
       preLoaderRoute: typeof AdminSellRequestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/profile': {
+      id: '/admin/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminProfileRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/enquiries': {
@@ -409,8 +506,11 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminContentRoute: typeof AdminContentRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
+  AdminProfileRoute: typeof AdminProfileRoute
   AdminSellRequestsRoute: typeof AdminSellRequestsRoute
   AdminTestDrivesRoute: typeof AdminTestDrivesRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminVehiclesRoute: typeof AdminVehiclesRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -419,8 +519,11 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminContentRoute: AdminContentRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
+  AdminNewsletterRoute: AdminNewsletterRoute,
+  AdminProfileRoute: AdminProfileRoute,
   AdminSellRequestsRoute: AdminSellRequestsRoute,
   AdminTestDrivesRoute: AdminTestDrivesRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminVehiclesRoute: AdminVehiclesRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -436,6 +539,8 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogueRoute: CatalogueRoute,
   ContactRoute: ContactRoute,
   FinanceRoute: FinanceRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SellRoute: SellRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
