@@ -1,20 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 export function Footer() {
   return (
     <footer className="mt-20 border-t border-border bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div>
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-5 lg:px-8">
+        <div className="lg:col-span-2">
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-md bg-gold text-gold-foreground">
               <span className="font-display text-lg font-bold">M</span>
             </div>
             <div className="font-display text-lg font-bold">MLG Autohaus</div>
           </div>
-          <p className="mt-4 text-sm text-primary-foreground/70">
+          <p className="mt-4 max-w-sm text-sm text-primary-foreground/70">
             Hand-picked premium used cars. Family-run since 2008.
           </p>
+          <div className="mt-6 max-w-sm">
+            <NewsletterSignup />
+          </div>
         </div>
 
         <div>
