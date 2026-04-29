@@ -147,7 +147,7 @@ function Home() {
             </div>
             <div className="lg:text-right">
               <Link to="/sell" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
-                Get my valuation <ArrowRight className="h-4 w-4" />
+                Get a Free Valuation <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
