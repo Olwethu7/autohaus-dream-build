@@ -31,6 +31,7 @@ import { Route as AdminTestDrivesRouteImport } from './routes/admin.test-drives'
 import { Route as AdminSellRequestsRouteImport } from './routes/admin.sell-requests'
 import { Route as AdminProfileRouteImport } from './routes/admin.profile'
 import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 
@@ -144,6 +145,11 @@ const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
   path: '/newsletter',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
   id: '/enquiries',
   path: '/enquiries',
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -196,6 +203,7 @@ export interface FileRoutesByTo {
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/test-drive': typeof TestDriveRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/profile': typeof AdminProfileRoute
   '/admin/sell-requests': typeof AdminSellRequestsRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/profile'
     | '/admin/sell-requests'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/profile'
     | '/admin/sell-requests'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/test-drive'
     | '/admin/content'
     | '/admin/enquiries'
+    | '/admin/login'
     | '/admin/newsletter'
     | '/admin/profile'
     | '/admin/sell-requests'
@@ -486,6 +498,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminNewsletterRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/enquiries': {
       id: '/admin/enquiries'
       path: '/enquiries'
@@ -506,6 +525,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminContentRoute: typeof AdminContentRoute
   AdminEnquiriesRoute: typeof AdminEnquiriesRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminNewsletterRoute: typeof AdminNewsletterRoute
   AdminProfileRoute: typeof AdminProfileRoute
   AdminSellRequestsRoute: typeof AdminSellRequestsRoute
@@ -519,6 +539,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminContentRoute: AdminContentRoute,
   AdminEnquiriesRoute: AdminEnquiriesRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminNewsletterRoute: AdminNewsletterRoute,
   AdminProfileRoute: AdminProfileRoute,
   AdminSellRequestsRoute: AdminSellRequestsRoute,

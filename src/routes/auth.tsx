@@ -10,7 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth")({
   component: Auth,
-  head: () => ({ meta: [{ title: "Sign in — MLG Autohaus" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Sign in — MLG Autohaus" }] }),
 });
 
 const credSchema = z.object({
@@ -25,7 +25,7 @@ function Auth() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { if (data.session) nav({ to: "/admin" }); });
+    supabase.auth.getSession().then(({ data }) => { if (data.session) nav({ to: "/" }); });
   }, [nav]);
 
   const signIn = async (e: React.FormEvent) => {
@@ -37,7 +37,7 @@ function Auth() {
     setBusy(false);
     if (error) { toast.error(error.message); return; }
     toast.success("Welcome back");
-    nav({ to: "/admin" });
+    nav({ to: "/" });
   };
 
   const signUp = async (e: React.FormEvent) => {
@@ -47,7 +47,7 @@ function Auth() {
     setBusy(true);
     const { error } = await supabase.auth.signUp({
       ...p.data,
-      options: { emailRedirectTo: `${window.location.origin}/admin` },
+      options: { emailRedirectTo: `${window.location.origin}/` },
     });
     setBusy(false);
     if (error) { toast.error(error.message); return; }
@@ -59,8 +59,8 @@ function Auth() {
     <Layout>
       <section className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-12 sm:px-6">
         <div className="rounded-xl border border-border bg-card p-8 shadow-card">
-          <h1 className="font-display text-2xl">Admin access</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Sign in to manage stock and customer requests.</p>
+          <h1 className="font-display text-2xl">Your account</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Sign in or create an account to track enquiries and bookings.</p>
           <Tabs value={tab} onValueChange={setTab} className="mt-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Sign in</TabsTrigger>
@@ -68,8 +68,8 @@ function Auth() {
             </TabsList>
             <TabsContent value="signin">
               <form onSubmit={signIn} className="mt-4 space-y-3">
-                <Input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-                <Input type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+                <Input type="email" placeholder="Email" autoComplete="username" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                <Input type="password" placeholder="Password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</Button>
                 <div className="text-center text-xs">
                   <Link to="/forgot-password" className="text-muted-foreground hover:text-foreground">Forgot your password?</Link>
@@ -78,10 +78,9 @@ function Auth() {
             </TabsContent>
             <TabsContent value="signup">
               <form onSubmit={signUp} className="mt-4 space-y-3">
-                <Input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-                <Input type="password" placeholder="Password (min 6 chars)" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+                <Input type="email" placeholder="Email" autoComplete="username" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                <Input type="password" placeholder="Password (min 6 chars)" autoComplete="new-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
                 <Button type="submit" className="w-full" disabled={busy}>{busy ? "Creating…" : "Create account"}</Button>
-                <p className="text-xs text-muted-foreground">An admin must grant you the admin role before you can manage content.</p>
               </form>
             </TabsContent>
           </Tabs>
