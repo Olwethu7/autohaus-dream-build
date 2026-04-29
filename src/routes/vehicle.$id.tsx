@@ -9,6 +9,30 @@ import { EnquiryForm } from "@/components/site/EnquiryForm";
 
 export const Route = createFileRoute("/vehicle/$id")({
   component: VehicleDetail,
+  loader: async ({ params }) => {
+    const { data } = await supabase
+      .from("vehicles")
+      .select("year,make,model,price,images")
+      .eq("id", params.id)
+      .maybeSingle();
+    return { meta: data as { year: number; make: string; model: string; price: number; images: string[] } | null };
+  },
+  head: ({ loaderData }) => {
+    const m = loaderData?.meta;
+    if (!m) return { meta: [{ title: "Vehicle — MLG Autohaus" }] };
+    const title = `${m.year} ${m.make} ${m.model} — MLG Autohaus`;
+    const desc = `${m.year} ${m.make} ${m.model} for sale at MLG Autohaus. Fully inspected, ready to drive away.`;
+    const image = m.images?.[0];
+    return {
+      meta: [
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        ...(image ? [{ property: "og:image", content: image }, { property: "twitter:image", content: image }] : []),
+      ],
+    };
+  },
 });
 
 type V = {
