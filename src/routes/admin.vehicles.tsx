@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { Plus, Trash2, X, Upload } from "lucide-react";
+import { Plus, Trash2, X, Upload, BadgeCheck, RotateCcw } from "lucide-react";
 import { formatGBP } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/vehicles")({
@@ -94,6 +94,13 @@ function VehiclesAdmin() {
     setUploading(false);
   };
 
+  const toggleSold = async (v: V) => {
+    const { error } = await supabase.from("vehicles").update({ sold: !v.sold }).eq("id", v.id);
+    if (error) return toast.error(error.message);
+    toast.success(v.sold ? "Marked available" : "Marked as sold");
+    load();
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -121,6 +128,9 @@ function VehiclesAdmin() {
                    : <span className="text-muted-foreground">Available</span>}
                 </td>
                 <td className="p-3 text-right">
+                  <Button variant="ghost" size="sm" onClick={() => toggleSold(v)} title={v.sold ? "Mark available" : "Mark as sold"}>
+                    {v.sold ? <RotateCcw className="h-4 w-4" /> : <BadgeCheck className="h-4 w-4 text-destructive" />}
+                  </Button>
                   <Button variant="ghost" size="sm" onClick={() => setEditing(v)}>Edit</Button>
                   <Button variant="ghost" size="sm" onClick={() => remove(v.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                 </td>

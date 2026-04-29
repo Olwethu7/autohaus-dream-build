@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/contact")({
   component: Contact,
@@ -14,6 +16,12 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const [mapEmbed, setMapEmbed] = useState<string | null>(null);
+  useEffect(() => {
+    supabase.from("site_settings").select("value").eq("key", "google_map_embed").maybeSingle()
+      .then(({ data }) => setMapEmbed(data?.value ?? null));
+  }, []);
+
   return (
     <Layout>
       <section className="bg-primary py-16 text-primary-foreground">
@@ -39,6 +47,23 @@ function Contact() {
           </div>
         </div>
       </section>
+
+      {mapEmbed && (
+        <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+          <div className="overflow-hidden rounded-xl border border-border shadow-card">
+            <iframe
+              src={mapEmbed}
+              title="MLG Autohaus location"
+              width="100%"
+              height="420"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+        </section>
+      )}
     </Layout>
   );
 }
@@ -50,7 +75,7 @@ function Item({ icon: Icon, title, lines }: { icon: React.ComponentType<{ classN
         <Icon className="h-5 w-5" />
       </div>
       <div>
-        <div className="font-display text-lg">{title}</div>
+        <div className="font-semibold">{title}</div>
         {lines.map((l) => <div key={l} className="text-sm text-muted-foreground">{l}</div>)}
       </div>
     </div>

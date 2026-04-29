@@ -5,6 +5,7 @@ import { Layout } from "@/components/site/Layout";
 import { VehicleCard, type Vehicle } from "@/components/site/VehicleCard";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-showroom.jpg";
+import { Testimonials } from "@/components/site/Testimonials";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -101,6 +102,8 @@ function Home() {
           ))}
         </div>
       </section>
+
+      <Testimonials />
 
       {/* Sell CTA */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
