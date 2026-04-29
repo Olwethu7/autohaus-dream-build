@@ -11,11 +11,14 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "MLG Autohaus — Premium Used Cars in Manchester" },
-      { name: "description", content: "Hand-picked premium used cars, fully inspected. Browse our catalogue, book a test drive, or get a finance quote in minutes." },
+      { title: "MLG Autohaus — Premium Pre-Owned & Franchise Vehicles" },
+      { name: "description", content: "Trusted South African dealership. Quality pre-owned and franchise vehicles, transparent pricing, and exceptional customer service." },
     ],
   }),
 });
+
+const FRANCHISES = ["BMW", "Mercedes-Benz", "Audi", "Volkswagen", "Toyota"];
+
 
 function Home() {
   const [featured, setFeatured] = useState<Vehicle[]>([]);
