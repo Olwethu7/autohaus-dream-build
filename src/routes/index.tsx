@@ -76,14 +76,40 @@ function Home() {
         <div className="flex items-end justify-between">
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-gold">Hand-picked</div>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Featured vehicles</h2>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Latest Arrivals</h2>
           </div>
           <Link to="/catalogue" className="hidden items-center gap-2 text-sm font-medium hover:text-gold sm:inline-flex">
             View all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((v) => <VehicleCard key={v.id} v={v} />)}
+          {featured.map((v, i) => (
+            <div key={v.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s`, animationFillMode: "both" }}>
+              <VehicleCard v={v} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Franchise Partners */}
+      <section className="border-y border-border bg-muted/30 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="text-xs uppercase tracking-[0.2em] text-gold">Authorised dealer</div>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Our Franchise Partners</h2>
+            <p className="mt-3 text-sm text-muted-foreground">Proud to represent leading automotive brands in South Africa.</p>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+            {FRANCHISES.map((b, i) => (
+              <div
+                key={b}
+                className="flex h-24 items-center justify-center rounded-xl border border-border bg-card font-display text-lg shadow-card transition-all hover:-translate-y-1 hover:shadow-luxe animate-fade-in"
+                style={{ animationDelay: `${i * 0.08}s`, animationFillMode: "both" }}
+              >
+                {b}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
