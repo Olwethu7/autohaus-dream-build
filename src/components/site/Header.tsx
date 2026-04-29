@@ -76,8 +76,8 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <Link to={authed ? "/admin" : "/auth"} onClick={() => setOpen(false)} className="py-3 text-base font-medium text-gold">
-              {authed ? "Admin Dashboard" : "Sign In"}
+            <Link to="/auth" onClick={() => setOpen(false)} className="py-3 text-base font-medium text-gold">
+              {authed ? "My Account" : "Sign In"}
             </Link>
           </nav>
         </div>
