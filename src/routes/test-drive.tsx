@@ -19,7 +19,7 @@ export const Route = createFileRoute("/test-drive")({
   head: () => ({
     meta: [
       { title: "Book a Test Drive — MLG Autohaus" },
-      { name: "description", content: "Book a no-obligation test drive at our Manchester showroom." },
+      { name: "description", content: "Book a no-obligation test drive at the MLG Autohaus showroom in Durban." },
     ],
   }),
 });

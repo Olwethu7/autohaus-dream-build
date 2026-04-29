@@ -11,11 +11,14 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "MLG Autohaus — Premium Used Cars in Manchester" },
-      { name: "description", content: "Hand-picked premium used cars, fully inspected. Browse our catalogue, book a test drive, or get a finance quote in minutes." },
+      { title: "MLG Autohaus — Premium Pre-Owned & Franchise Vehicles" },
+      { name: "description", content: "Trusted South African dealership. Quality pre-owned and franchise vehicles, transparent pricing, and exceptional customer service." },
     ],
   }),
 });
+
+const FRANCHISES = ["BMW", "Mercedes-Benz", "Audi", "Volkswagen", "Toyota"];
+
 
 function Home() {
   const [featured, setFeatured] = useState<Vehicle[]>([]);
@@ -32,18 +35,18 @@ function Home() {
         <img src={heroImg} alt="MLG Autohaus showroom" className="absolute inset-0 h-full w-full object-cover" width={1920} height={1080} />
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 sm:py-36 lg:px-8 lg:py-44">
-          <div className="max-w-2xl text-primary-foreground">
+          <div className="max-w-2xl text-primary-foreground animate-fade-in">
             <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-gold">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Family-run since 2008
+              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Trusted South African dealership
             </div>
             <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
-              Premium used cars,<br /><span className="text-gold">honestly priced.</span>
+              Premium Pre-Owned &<br /><span className="text-gold">Franchise Vehicles.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
-              Hand-picked stock, fully inspected, ready to drive away. Browse our catalogue or book a no-obligation test drive today.
+              Trusted dealership serving South Africa. Quality vehicles, transparent prices.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/catalogue" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
+              <Link to="/catalogue" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-all hover:scale-[1.03] hover:shadow-luxe">
                 Browse catalogue <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to="/finance" className="inline-flex items-center gap-2 rounded-md border border-primary-foreground/30 bg-background/10 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-background/20">
@@ -73,14 +76,40 @@ function Home() {
         <div className="flex items-end justify-between">
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-gold">Hand-picked</div>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Featured vehicles</h2>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Latest Arrivals</h2>
           </div>
           <Link to="/catalogue" className="hidden items-center gap-2 text-sm font-medium hover:text-gold sm:inline-flex">
             View all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((v) => <VehicleCard key={v.id} v={v} />)}
+          {featured.map((v, i) => (
+            <div key={v.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s`, animationFillMode: "both" }}>
+              <VehicleCard v={v} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Franchise Partners */}
+      <section className="border-y border-border bg-muted/30 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="text-xs uppercase tracking-[0.2em] text-gold">Authorised dealer</div>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Our Franchise Partners</h2>
+            <p className="mt-3 text-sm text-muted-foreground">Proud to represent leading automotive brands in South Africa.</p>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+            {FRANCHISES.map((b, i) => (
+              <div
+                key={b}
+                className="flex h-24 items-center justify-center rounded-xl border border-border bg-card font-display text-lg shadow-card transition-all hover:-translate-y-1 hover:shadow-luxe animate-fade-in"
+                style={{ animationDelay: `${i * 0.08}s`, animationFillMode: "both" }}
+              >
+                {b}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -118,7 +147,7 @@ function Home() {
             </div>
             <div className="lg:text-right">
               <Link to="/sell" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
-                Get my valuation <ArrowRight className="h-4 w-4" />
+                Get a Free Valuation <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
