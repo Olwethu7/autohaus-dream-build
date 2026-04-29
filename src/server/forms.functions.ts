@@ -2,6 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { verifyRecaptcha, type CaptchaFailReason } from "./recaptcha.server";
+import {
+  sendEnquiryEmails,
+  sendSellRequestNotification,
+  sendTestDriveConfirmation,
+} from "./email.server";
 
 type FormResult =
   | { ok: true }
@@ -29,6 +34,15 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       message: data.message,
     });
     if (error) return { ok: false, error: "Could not save enquiry. Please try again." };
+    let vehicleLabel: string | null = null;
+    if (data.vehicle_id) {
+      const { data: v } = await supabaseAdmin
+        .from("vehicles").select("year,make,model").eq("id", data.vehicle_id).maybeSingle();
+      if (v) vehicleLabel = `${v.year} ${v.make} ${v.model}`;
+    }
+    try {
+      await sendEnquiryEmails({ to: data.email, name: data.name, message: data.message, vehicleLabel });
+    } catch (e) { console.error("[email] enquiry failed", e); }
     return { ok: true };
   });
 
@@ -56,6 +70,13 @@ export const submitTestDrive = createServerFn({ method: "POST" })
       notes: data.notes || null,
     });
     if (error) return { ok: false, error: "Could not book test drive. Please try again." };
+    let vehicleLabel = "your selected vehicle";
+    const { data: v } = await supabaseAdmin
+      .from("vehicles").select("year,make,model").eq("id", data.vehicle_id).maybeSingle();
+    if (v) vehicleLabel = `${v.year} ${v.make} ${v.model}`;
+    try {
+      await sendTestDriveConfirmation({ to: data.email, name: data.name, vehicleLabel, date: data.preferred_date });
+    } catch (e) { console.error("[email] test drive failed", e); }
     return { ok: true };
   });
 
@@ -91,5 +112,12 @@ export const submitSellRequest = createServerFn({ method: "POST" })
       description: data.description || null,
     });
     if (error) return { ok: false, error: "Could not submit request. Please try again." };
+    try {
+      await sendSellRequestNotification({
+        name: data.name, email: data.email, phone: data.phone,
+        make: data.make, model: data.model, year: data.year, mileage: data.mileage,
+        asking_price: data.asking_price ?? null,
+      });
+    } catch (e) { console.error("[email] sell request failed", e); }
     return { ok: true };
   });
