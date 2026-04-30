@@ -95,22 +95,45 @@ function Home() {
         </div>
       </section>
 
+      {/* Stats */}
+      <section className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border bg-card p-8 sm:grid-cols-4">
+            {[
+              { label: "Vehicles in stock", to: featured.length || 12, suffix: "+" },
+              { label: "Years of trust", to: 15, suffix: "+" },
+              { label: "Happy customers", to: 1200, suffix: "+" },
+              { label: "Franchise brands", to: 5, suffix: "" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="font-display text-3xl text-gold sm:text-4xl">
+                  <CountUp to={s.to} suffix={s.suffix} />
+                </div>
+                <div className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
       {/* Featured vehicles */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between">
-          <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-gold">Hand-picked</div>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Latest Arrivals</h2>
+        <Reveal>
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-[0.2em] text-gold">Hand-picked</div>
+              <h2 className="mt-2 font-display text-3xl sm:text-4xl">Latest Arrivals</h2>
+            </div>
+            <Link to="/catalogue" className="hidden items-center gap-2 text-sm font-medium hover:text-gold sm:inline-flex">
+              View all <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-          <Link to="/catalogue" className="hidden items-center gap-2 text-sm font-medium hover:text-gold sm:inline-flex">
-            View all <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+        </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((v, i) => (
-            <div key={v.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s`, animationFillMode: "both" }}>
+            <Reveal key={v.id} delay={i * 100}>
               <VehicleCard v={v} />
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -118,20 +141,20 @@ function Home() {
       {/* Franchise Partners */}
       <section className="border-y border-border bg-muted/30 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="text-xs uppercase tracking-[0.2em] text-gold">Authorised dealer</div>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Our Franchise Partners</h2>
-            <p className="mt-3 text-sm text-muted-foreground">Proud to represent leading automotive brands in South Africa.</p>
-          </div>
+          <Reveal>
+            <div className="text-center">
+              <div className="text-xs uppercase tracking-[0.2em] text-gold">Authorised dealer</div>
+              <h2 className="mt-2 font-display text-3xl sm:text-4xl">Our Franchise Partners</h2>
+              <p className="mt-3 text-sm text-muted-foreground">Proud to represent leading automotive brands in South Africa.</p>
+            </div>
+          </Reveal>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
             {FRANCHISES.map((b, i) => (
-              <div
-                key={b}
-                className="flex h-24 items-center justify-center rounded-xl border border-border bg-card font-display text-lg shadow-card transition-all hover:-translate-y-1 hover:shadow-luxe animate-fade-in"
-                style={{ animationDelay: `${i * 0.08}s`, animationFillMode: "both" }}
-              >
-                {b}
-              </div>
+              <Reveal key={b} delay={i * 80}>
+                <div className="flex h-24 items-center justify-center rounded-xl border border-border bg-card font-display text-lg shadow-card transition-all hover:-translate-y-1 hover:scale-[1.04] hover:shadow-luxe hover:animate-pulse">
+                  {b}
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -144,38 +167,44 @@ function Home() {
             { icon: ShieldCheck, title: "HPI Checked", body: "Every vehicle comes with a full history check and clear title guarantee." },
             { icon: Wrench, title: "Fully Inspected", body: "Multi-point mechanical and cosmetic inspection before every sale." },
             { icon: Award, title: "Aftercare", body: "Comprehensive warranty options and a service plan tailored to you." },
-          ].map((f) => (
-            <div key={f.title} className="rounded-xl bg-card p-8 shadow-card">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-gold text-gold-foreground">
-                <f.icon className="h-6 w-6" />
+          ].map((f, i) => (
+            <Reveal key={f.title} delay={i * 120}>
+              <div className="rounded-xl bg-card p-8 shadow-card transition-all hover:-translate-y-1 hover:shadow-luxe">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-gold text-gold-foreground">
+                  <f.icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 font-display text-xl">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
               </div>
-              <h3 className="mt-5 font-display text-xl">{f.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <Testimonials />
+      <Reveal>
+        <Testimonials />
+      </Reveal>
 
       {/* Sell CTA */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-primary p-10 text-primary-foreground sm:p-14">
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-gold">Selling your car?</div>
-              <h2 className="mt-3 font-display text-3xl sm:text-4xl">Get a fair offer in 24 hours.</h2>
-              <p className="mt-4 max-w-md text-primary-foreground/70">
-                Skip the hassle of private sales. Tell us about your car and we'll come back with a no-obligation valuation.
-              </p>
-            </div>
-            <div className="lg:text-right">
-              <Link to="/sell" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
-                Get a Free Valuation <ArrowRight className="h-4 w-4" />
-              </Link>
+        <Reveal>
+          <div className="overflow-hidden rounded-2xl bg-primary p-10 text-primary-foreground sm:p-14">
+            <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-gold">Selling your car?</div>
+                <h2 className="mt-3 font-display text-3xl sm:text-4xl">Get a fair offer in 24 hours.</h2>
+                <p className="mt-4 max-w-md text-primary-foreground/70">
+                  Skip the hassle of private sales. Tell us about your car and we'll come back with a no-obligation valuation.
+                </p>
+              </div>
+              <div className="lg:text-right">
+                <Link to="/sell" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-105">
+                  Get a Free Valuation <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </Layout>
   );
