@@ -6,6 +6,7 @@ import { VehicleCard, type Vehicle } from "@/components/site/VehicleCard";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-showroom.jpg";
 import { Testimonials } from "@/components/site/Testimonials";
+import { Reveal, CountUp } from "@/components/site/Reveal";
 
 export const Route = createFileRoute("/")({
   component: Home,
