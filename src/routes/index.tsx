@@ -24,8 +24,14 @@ function Home() {
   const [featured, setFeatured] = useState<Vehicle[]>([]);
 
   useEffect(() => {
-    supabase.from("vehicles").select("*").eq("featured", true).eq("sold", false).limit(6)
+    const load = () => supabase.from("vehicles").select("*").eq("featured", true).eq("sold", false).limit(6)
       .then(({ data }) => setFeatured((data as Vehicle[]) || []));
+    load();
+    const channel = supabase
+      .channel("vehicles-home")
+      .on("postgres_changes", { event: "*", schema: "public", table: "vehicles" }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   return (
