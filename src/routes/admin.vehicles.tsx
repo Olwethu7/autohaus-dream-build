@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { Plus, Trash2, X, Upload, BadgeCheck, RotateCcw } from "lucide-react";
+import { Plus, Trash2, X, Upload, BadgeCheck, RotateCcw, Car } from "lucide-react";
 import { formatGBP } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/vehicles")({
