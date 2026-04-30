@@ -93,8 +93,16 @@ function Catalogue() {
         {filtered.length === 0 ? (
           <div className="mt-16 text-center text-muted-foreground">No vehicles match your filters.</div>
         ) : (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((v) => <VehicleCard key={v.id} v={v} />)}
+          <div key={sort} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((v, i) => (
+              <div
+                key={v.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${i * 60}ms`, animationFillMode: "both" }}
+              >
+                <VehicleCard v={v} />
+              </div>
+            ))}
           </div>
         )}
       </section>

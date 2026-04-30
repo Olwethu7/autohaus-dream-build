@@ -120,4 +120,44 @@
   .text-gold { color: var(--color-gold); }
   .bg-gold { background-color: var(--color-gold); }
   .border-gold { border-color: var(--color-gold); }
+
+  .hover-scale { transition: transform 200ms ease; }
+  .hover-scale:hover { transform: scale(1.03); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease, transform 700ms ease; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  .nav-underline { position: relative; }
+  .nav-underline::after {
+    content: ""; position: absolute; left: 50%; bottom: -2px; height: 2px; width: 0;
+    background: var(--color-gold); transition: width 250ms ease, left 250ms ease;
+  }
+  .nav-underline:hover::after { left: 0; width: 100%; }
+
+  .btn-slide { position: relative; overflow: hidden; isolation: isolate; }
+  .btn-slide::before {
+    content: ""; position: absolute; inset: 0; background: var(--color-gold);
+    transform: translateX(-100%); transition: transform 350ms ease; z-index: -1;
+  }
+  .btn-slide:hover::before { transform: translateX(0); }
+
+  @keyframes heart-bounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.3); }
+    60% { transform: scale(0.9); }
+  }
+  .heart-bounce:active { animation: heart-bounce 400ms ease; }
+
+  @keyframes price-pulse {
+    0% { transform: scale(1); color: var(--color-foreground); }
+    50% { transform: scale(1.08); color: var(--color-gold); }
+    100% { transform: scale(1); color: var(--color-foreground); }
+  }
+  .price-pulse { animation: price-pulse 600ms ease; }
+
+  @keyframes slide-down {
+    from { opacity: 0; transform: translateY(-8px); max-height: 0; }
+    to { opacity: 1; transform: translateY(0); max-height: 600px; }
+  }
+  .animate-slide-down { animation: slide-down 300ms ease forwards; }
 }
