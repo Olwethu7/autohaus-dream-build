@@ -114,11 +114,31 @@ function VehiclesAdmin() {
       <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
         <table className="w-full text-sm">
           <thead className="bg-muted/50 text-xs uppercase tracking-wider text-muted-foreground">
-            <tr><th className="p-3 text-left">Vehicle</th><th className="p-3 text-left">Year</th><th className="p-3 text-left">Price</th><th className="p-3 text-left">Status</th><th className="p-3"></th></tr>
+            <tr>
+              <th className="p-3 text-left">Image</th>
+              <th className="p-3 text-left">Vehicle</th>
+              <th className="p-3 text-left">Year</th>
+              <th className="p-3 text-left">Price</th>
+              <th className="p-3 text-left">Status</th>
+              <th className="p-3"></th>
+            </tr>
           </thead>
           <tbody>
             {list.map((v) => (
               <tr key={v.id} className="border-t border-border">
+                <td className="p-3">
+                  <button
+                    onClick={() => setEditing(v)}
+                    title="Edit images"
+                    className="flex h-14 w-20 items-center justify-center overflow-hidden rounded-md border border-border bg-muted transition-transform hover:scale-105"
+                  >
+                    {v.images?.[0] ? (
+                      <img src={v.images[0]} alt={`${v.make} ${v.model}`} className="h-full w-full object-cover" />
+                    ) : (
+                      <Car className="h-6 w-6 text-muted-foreground" />
+                    )}
+                  </button>
+                </td>
                 <td className="p-3 font-medium">{v.make} {v.model}</td>
                 <td className="p-3">{v.year}</td>
                 <td className="p-3">{formatGBP(Number(v.price))}</td>
@@ -136,7 +156,7 @@ function VehiclesAdmin() {
                 </td>
               </tr>
             ))}
-            {list.length === 0 && <tr><td colSpan={5} className="p-8 text-center text-muted-foreground">No vehicles yet.</td></tr>}
+            {list.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">No vehicles yet.</td></tr>}
           </tbody>
         </table>
       </div>
