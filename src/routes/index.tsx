@@ -39,24 +39,41 @@ function Home() {
     <Layout>
       {/* Hero */}
       <section className="relative isolate overflow-hidden">
-        <img src={heroImg} alt="MLG Autohaus showroom" className="absolute inset-0 h-full w-full object-cover" width={1920} height={1080} />
-        <div className="absolute inset-0 bg-gradient-hero" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={heroImg}
+          preload="metadata"
+          className="absolute inset-0 hidden h-full w-full object-cover animate-fade-in sm:block"
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-driving-on-a-highway-158992/720.mp4" type="video/mp4" />
+        </video>
+        <img
+          src={heroImg}
+          alt="MLG Autohaus showroom"
+          className="absolute inset-0 h-full w-full object-cover sm:hidden"
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 sm:py-36 lg:px-8 lg:py-44">
-          <div className="max-w-2xl text-primary-foreground animate-fade-in">
+          <div className="max-w-2xl text-primary-foreground animate-fade-in" style={{ animationDelay: "0.6s", animationFillMode: "both" }}>
             <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-gold">
               <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Trusted South African dealership
             </div>
-            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
               Premium Pre-Owned &<br /><span className="text-gold">Franchise Vehicles.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
+            <p className="mt-6 max-w-xl text-lg text-white/85">
               Trusted dealership serving South Africa. Quality vehicles, transparent prices.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link to="/catalogue" className="inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-all hover:scale-[1.03] hover:shadow-luxe">
                 Browse catalogue <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/finance" className="inline-flex items-center gap-2 rounded-md border border-primary-foreground/30 bg-background/10 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-background/20">
+              <Link to="/finance" className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-all hover:scale-[1.03] hover:bg-white/20">
                 Calculate finance
               </Link>
             </div>
