@@ -25,8 +25,14 @@ function Catalogue() {
   const [sort, setSort] = useState("newest");
 
   useEffect(() => {
-    supabase.from("vehicles").select("*").order("created_at", { ascending: false })
+    const load = () => supabase.from("vehicles").select("*").order("created_at", { ascending: false })
       .then(({ data }) => setAll((data as Vehicle[]) || []));
+    load();
+    const channel = supabase
+      .channel("vehicles-catalogue")
+      .on("postgres_changes", { event: "*", schema: "public", table: "vehicles" }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   const filtered = useMemo(() => {

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Car, Mail, Calendar, HandCoins } from "lucide-react";
@@ -24,10 +24,10 @@ function Dashboard() {
   }, []);
 
   const cards = [
-    { label: "Vehicles in stock", value: stats.vehicles, icon: Car },
-    { label: "Enquiries", value: stats.enquiries, icon: Mail },
-    { label: "Test drive bookings", value: stats.testDrives, icon: Calendar },
-    { label: "Sell requests", value: stats.sellReqs, icon: HandCoins },
+    { label: "Vehicles in stock", value: stats.vehicles, icon: Car, to: "/admin/vehicles" as const },
+    { label: "Enquiries", value: stats.enquiries, icon: Mail, to: "/admin/enquiries" as const },
+    { label: "Test drive bookings", value: stats.testDrives, icon: Calendar, to: "/admin/test-drives" as const },
+    { label: "Sell requests", value: stats.sellReqs, icon: HandCoins, to: "/admin/sell-requests" as const },
   ];
 
   return (
@@ -36,7 +36,7 @@ function Dashboard() {
       <p className="mt-1 text-sm text-muted-foreground">Overview of your dealership.</p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (
-          <div key={c.label} className="rounded-xl border border-border bg-card p-5 shadow-card">
+          <Link key={c.label} to={c.to} className="rounded-xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-0.5 hover:border-gold hover:shadow-luxe">
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground">{c.label}</div>
@@ -44,7 +44,7 @@ function Dashboard() {
               </div>
               <c.icon className="h-5 w-5 text-gold" />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
