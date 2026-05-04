@@ -31,7 +31,7 @@ export function Header() {
           </div>
           <div className="leading-tight">
             <div className="font-display text-lg font-bold tracking-tight">MLG Autohaus</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gold">Premium Used Cars</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-gold">Premium Vehicles</div>
           </div>
         </Link>
 
