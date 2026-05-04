@@ -7,8 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useServerFn } from "@tanstack/react-start";
-import { submitSellRequest } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 
@@ -36,7 +34,6 @@ const schema = z.object({
 });
 
 function Sell() {
-  const send = useServerFn(submitSellRequest);
   const [step, setStep] = useState(1);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -63,12 +60,17 @@ function Sell() {
     setSubmitting(true);
     try {
       const token = await getRecaptchaToken("sell");
-      const res = await send({ data: {
-        ...parsed.data,
-        token,
-        asking_price: parsed.data.asking_price ?? null,
-        description: parsed.data.description || null,
-      }});
+      const r = await fetch("/api/submit-sell", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...parsed.data,
+          token,
+          asking_price: parsed.data.asking_price ?? null,
+          description: parsed.data.description || null,
+        }),
+      });
+      const res = await r.json();
       if (!res.ok) {
         if (res.error === "captcha") {
           const { captchaMessage } = await import("@/lib/captcha-messages");

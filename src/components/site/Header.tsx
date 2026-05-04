@@ -31,7 +31,7 @@ export function Header() {
           </div>
           <div className="leading-tight">
             <div className="font-display text-lg font-bold tracking-tight">MLG Autohaus</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gold">Premium Used Cars</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-gold">Premium Vehicles</div>
           </div>
         </Link>
 
@@ -47,7 +47,7 @@ export function Header() {
             </Link>
           ))}
           <Link
-            to="/auth"
+            to={authed ? "/account" : "/auth"}
             className="rounded-md border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
           >
             {authed ? "My Account" : "Sign In"}
@@ -76,7 +76,7 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <Link to="/auth" onClick={() => setOpen(false)} className="py-3 text-base font-medium text-gold">
+            <Link to={authed ? "/account" : "/auth"} onClick={() => setOpen(false)} className="py-3 text-base font-medium text-gold">
               {authed ? "My Account" : "Sign In"}
             </Link>
           </nav>

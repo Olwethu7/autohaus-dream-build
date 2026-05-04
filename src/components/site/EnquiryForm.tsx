@@ -4,8 +4,6 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useServerFn } from "@tanstack/react-start";
-import { submitEnquiry } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 
 const schema = z.object({
@@ -16,7 +14,6 @@ const schema = z.object({
 });
 
 export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
-  const submit = useServerFn(submitEnquiry);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
 
@@ -27,14 +24,19 @@ export function EnquiryForm({ vehicleId }: { vehicleId?: string }) {
     setSubmitting(true);
     try {
       const token = await getRecaptchaToken("enquiry");
-      const res = await submit({ data: {
-        token,
-        vehicle_id: vehicleId ?? null,
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone || null,
-        message: parsed.data.message,
-      }});
+      const r = await fetch("/api/submit-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          vehicle_id: vehicleId ?? null,
+          name: parsed.data.name,
+          email: parsed.data.email,
+          phone: parsed.data.phone || null,
+          message: parsed.data.message,
+        }),
+      });
+      const res = await r.json();
       if (!res.ok) {
         if (res.error === "captcha") {
           const { captchaMessage } = await import("@/lib/captcha-messages");
