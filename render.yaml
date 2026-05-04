@@ -2,10 +2,13 @@ services:
   - type: web
     name: autohaus-dream-build
     runtime: bun
+    repo: https://github.com/Olwethu7/autohaus-dream-build
     buildCommand: bun install && bun run build
-    startCommand: bun run src/index.tsx
+    startCommand: bun run start
     envVars:
       - key: NODE_VERSION
-        value: 20.18.0
+        value: 22.14.0
       - key: BUN_VERSION
         value: 1.3.4
+      - key: NODE_ENV
+        value: production
