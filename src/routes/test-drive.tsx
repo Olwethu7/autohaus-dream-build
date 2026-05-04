@@ -8,8 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { useServerFn } from "@tanstack/react-start";
-import { submitTestDrive } from "@/server/forms.functions";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 import { CheckCircle2 } from "lucide-react";
 
@@ -31,13 +29,13 @@ const schema = z.object({
   vehicle_id: z.string().min(1, "Please choose a vehicle"),
   preferred_date: z.string().min(1, "Please choose a date"),
   notes: z.string().max(1000).optional(),
+  token: z.string().min(1),
 });
 
 type V = { id: string; make: string; model: string; year: number };
 
 function TestDrive() {
   const { vehicleId } = Route.useSearch();
-  const send = useServerFn(submitTestDrive);
   const [vehicles, setVehicles] = useState<V[]>([]);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -52,23 +50,35 @@ function TestDrive() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const parsed = schema.safeParse(f);
+    const parsed = schema.safeParse({ ...f, token: "pending" });
     if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
     setSubmitting(true);
+    
     try {
+      // Get reCAPTCHA token
       const token = await getRecaptchaToken("test_drive");
-      const res = await send({ data: { ...parsed.data, token, notes: parsed.data.notes || null } });
+      
+      // Call the API endpoint instead of server function directly
+      const response = await fetch("/api/submit-test-drive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...f, token }),
+      });
+      
+      const res = await response.json();
+      
       if (!res.ok) {
         if (res.error === "captcha") {
           const { captchaMessage } = await import("@/lib/captcha-messages");
           toast.error(captchaMessage(res.reason).description);
         } else {
-          toast.error(res.error);
+          toast.error(res.error || "Something went wrong");
         }
         return;
       }
       setDone(true);
-    } catch {
+    } catch (err) {
+      console.error(err);
       toast.error("Could not book. Try again.");
     } finally {
       setSubmitting(false);
