@@ -20,10 +20,14 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as VehicleIdRouteImport } from './routes/vehicle.$id'
+import { Route as ApiSubmitTestDriveRouteImport } from './routes/api/submit-test-drive'
+import { Route as ApiSubmitSellRouteImport } from './routes/api/submit-sell'
+import { Route as ApiSubmitEnquiryRouteImport } from './routes/api/submit-enquiry'
 import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin.testimonials'
@@ -90,6 +94,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -108,6 +117,21 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const VehicleIdRoute = VehicleIdRouteImport.update({
   id: '/vehicle/$id',
   path: '/vehicle/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSubmitTestDriveRoute = ApiSubmitTestDriveRouteImport.update({
+  id: '/api/submit-test-drive',
+  path: '/api/submit-test-drive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSubmitSellRoute = ApiSubmitSellRouteImport.update({
+  id: '/api/submit-sell',
+  path: '/api/submit-sell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSubmitEnquiryRoute = ApiSubmitEnquiryRouteImport.update({
+  id: '/api/submit-enquiry',
+  path: '/api/submit-enquiry',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminVehiclesRoute = AdminVehiclesRouteImport.update({
@@ -164,6 +188,7 @@ const AdminContentRoute = AdminContentRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
@@ -185,12 +210,16 @@ export interface FileRoutesByFullPath {
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/api/submit-enquiry': typeof ApiSubmitEnquiryRoute
+  '/api/submit-sell': typeof ApiSubmitSellRoute
+  '/api/submit-test-drive': typeof ApiSubmitTestDriveRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
   '/contact': typeof ContactRoute
@@ -211,6 +240,9 @@ export interface FileRoutesByTo {
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/api/submit-enquiry': typeof ApiSubmitEnquiryRoute
+  '/api/submit-sell': typeof ApiSubmitSellRoute
+  '/api/submit-test-drive': typeof ApiSubmitTestDriveRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -218,6 +250,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogue': typeof CatalogueRoute
@@ -239,6 +272,9 @@ export interface FileRoutesById {
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/api/submit-enquiry': typeof ApiSubmitEnquiryRoute
+  '/api/submit-sell': typeof ApiSubmitSellRoute
+  '/api/submit-test-drive': typeof ApiSubmitTestDriveRoute
   '/vehicle/$id': typeof VehicleIdRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -247,6 +283,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
     | '/admin'
     | '/auth'
     | '/catalogue'
@@ -268,12 +305,16 @@ export interface FileRouteTypes {
     | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
+    | '/api/submit-enquiry'
+    | '/api/submit-sell'
+    | '/api/submit-test-drive'
     | '/vehicle/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/account'
     | '/auth'
     | '/catalogue'
     | '/contact'
@@ -294,12 +335,16 @@ export interface FileRouteTypes {
     | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
+    | '/api/submit-enquiry'
+    | '/api/submit-sell'
+    | '/api/submit-test-drive'
     | '/vehicle/$id'
     | '/admin'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
     | '/admin'
     | '/auth'
     | '/catalogue'
@@ -321,6 +366,9 @@ export interface FileRouteTypes {
     | '/admin/testimonials'
     | '/admin/users'
     | '/admin/vehicles'
+    | '/api/submit-enquiry'
+    | '/api/submit-sell'
+    | '/api/submit-test-drive'
     | '/vehicle/$id'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -328,6 +376,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CatalogueRoute: typeof CatalogueRoute
@@ -339,6 +388,9 @@ export interface RootRouteChildren {
   SellRoute: typeof SellRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestDriveRoute: typeof TestDriveRoute
+  ApiSubmitEnquiryRoute: typeof ApiSubmitEnquiryRoute
+  ApiSubmitSellRoute: typeof ApiSubmitSellRoute
+  ApiSubmitTestDriveRoute: typeof ApiSubmitTestDriveRoute
   VehicleIdRoute: typeof VehicleIdRoute
 }
 
@@ -421,6 +473,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -447,6 +506,27 @@ declare module '@tanstack/react-router' {
       path: '/vehicle/$id'
       fullPath: '/vehicle/$id'
       preLoaderRoute: typeof VehicleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/submit-test-drive': {
+      id: '/api/submit-test-drive'
+      path: '/api/submit-test-drive'
+      fullPath: '/api/submit-test-drive'
+      preLoaderRoute: typeof ApiSubmitTestDriveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/submit-sell': {
+      id: '/api/submit-sell'
+      path: '/api/submit-sell'
+      fullPath: '/api/submit-sell'
+      preLoaderRoute: typeof ApiSubmitSellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/submit-enquiry': {
+      id: '/api/submit-enquiry'
+      path: '/api/submit-enquiry'
+      fullPath: '/api/submit-enquiry'
+      preLoaderRoute: typeof ApiSubmitEnquiryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/vehicles': {
@@ -555,6 +635,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CatalogueRoute: CatalogueRoute,
@@ -566,6 +647,9 @@ const rootRouteChildren: RootRouteChildren = {
   SellRoute: SellRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestDriveRoute: TestDriveRoute,
+  ApiSubmitEnquiryRoute: ApiSubmitEnquiryRoute,
+  ApiSubmitSellRoute: ApiSubmitSellRoute,
+  ApiSubmitTestDriveRoute: ApiSubmitTestDriveRoute,
   VehicleIdRoute: VehicleIdRoute,
 }
 export const routeTree = rootRouteImport
