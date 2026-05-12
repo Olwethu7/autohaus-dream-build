@@ -130,7 +130,7 @@ function AdminShell() {
             <Link
               key={it.to}
               to={it.to}
-              activeOptions={{ exact: it.end }}
+              activeOptions={{ exact: "end" in it ? it.end : false }}
               className={cn(
                 "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all duration-200",
                 "hover:bg-slate-800 hover:text-white",
